@@ -72,7 +72,7 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
     <div className={`flex min-h-[70vh] flex-col gap-3 ${pendiente ? "opacity-70" : ""}`}>
       <div className="flex items-center justify-between text-xs text-suave">
         <span className="truncate">{t.asignatura} · {t.tema}</span>
-        <span>{limite != null ? `${hechas}/${limite}` : `${t.cupo.restantes} restantes`}{t.state === 0 ? " · nueva" : ""}</span>
+        <span>{limite != null ? `${hechas}/${limite}` : `${hechas} hechas`}{t.state === 0 ? " · nueva" : ""}</span>
       </div>
 
       <button className="caja min-h-40 text-left text-lg leading-snug" onClick={() => fase === "pregunta" && setFase("respuesta")}>
@@ -91,7 +91,7 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
               {t.notas.map((n, i) => <p key={i}>• {textoMotivo(n.motivo)}{n.nota ? ` — ${n.nota}` : ""}</p>)}
             </div>
           )}
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm [&>*]:whitespace-nowrap">
             <button className="sub underline" onClick={() => setFuente(!fuente)}>Fuente{t.pagina ? ` · pág. ${t.pagina}` : ""}</button>
             {t.refsMir.length > 0 && <span className="sub">MIR {[...new Set(t.refsMir)].sort().join(", ")}</span>}
             <button className="sub ml-auto underline" onClick={marcarMal}>Esta tarjeta está mal</button>
@@ -110,7 +110,7 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
               <div className="flex flex-wrap gap-1.5">
                 {MOTIVOS.map((m) => <button key={m.valor} disabled={pendiente} className="chip" onClick={() => explicar(m.valor)}>{m.texto}</button>)}
               </div>
-              <input className="campo" placeholder="Explicación (opcional) y elige motivo o pulsa Saltar" value={nota} onChange={(e) => setNota(e.target.value)} />
+              <input className="campo" placeholder="Explicación (opcional)" value={nota} onChange={(e) => setNota(e.target.value)} />
               <button disabled={pendiente} className="btn-sec" onClick={() => explicar(null)}>{nota.trim() ? "Guardar sin motivo" : "Saltar"}</button>
             </div>
           )}
