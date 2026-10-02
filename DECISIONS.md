@@ -62,6 +62,7 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Se elimina `channel_binding` de la URL de Neon antes de conectar: el driver `postgres` lo envía como parámetro de servidor y Postgres lo rechaza.
 
 - `tarjetas-sin-api`: el asistente local redacta las tarjetas y se importan con la misma validación que las de la API (cita literal), sin coste de API.
+- Capítulo de prueba (Valvulopatías, sección 576, Cardiología): 53/67 tarjetas válidas. El rechazo automático funcionó como se espera: 6 por imprecisión mía al transcribir la cita (p. ej. coma/punto mal situado) y 8 por "duplicada" — la detección de parecido (≥85% de palabras compartidas) confunde preguntas de plantilla repetida ("¿Cuál es la causa más frecuente de X?") entre entidades distintas cuando el nombre de la entidad pesa poco frente al resto de palabras compartidas. Para las siguientes tandas: variar la redacción de la pregunta en vez de repetir la misma plantilla para conceptos distintos del mismo capítulo.
 
 ## Traspaso a Claude en local (Windows)
 - Se trabaja sobre la rama `main` (igual que `claude/nice-cerf-5ybw3q`, que queda como estaba): es la que despliega Vercel.
