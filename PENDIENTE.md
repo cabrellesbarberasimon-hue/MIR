@@ -10,6 +10,13 @@ Vercel → `mir-estudio` → *Storage* → tu base → *Open in Neon* → *Conne
 → pégala en la línea `DATABASE_URL=` de `C:\Users\Simo\OneDrive - BoCubi\Escritorio\MIR\.env`.
 (`APP_PASSWORD` y `SESSION_SECRET` de ese `.env` los generé yo para uso local; no son los de producción.)
 
+**Intenté obtenerla yo con la cuenta de Vercel conectada** (me diste permiso para `vercel login` / `env pull`):
+esa cuenta (`simon@bocubimobiliario.com`, vía el conector de Vercel, sin `vercel login` de terminal) tiene 10
+proyectos y **ninguno es `mir-estudio`** (sí hay un `mir-project`, creado hace poco, deploy en ERROR, dominio
+`mir-project-rust.vercel.app` — no tiene relación con `mir-estudio.vercel.app`, que sigue vivo y sirve la app
+real). No lo he tocado por si es algo tuyo de otra prueba. El proyecto real debe de estar en otra cuenta/equipo
+de Vercel (quizá entraste con GitHub en vez de con el email la vez que lo creaste). Más fácil que lo pegues tú.
+
 ## 2. Decide qué hacer con LIBRO GORDO.pdf y LG IMAGENES.pdf
 Por defecto los dejo fuera de la carga (ver docs/analisis-manuales.md):
 - **LIBRO GORDO.pdf**: no es un manual por especialidad, es un recopilatorio de preguntas de examen 2016-2025
