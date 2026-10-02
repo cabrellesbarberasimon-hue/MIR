@@ -3,7 +3,7 @@
 // Escribe el informe en privado/analisis-manuales.md (no se sube a git).
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { arg, dirManuales, listarArchivos, privado } from "./comun";
+import { arg, dirManuales, esExamen, listarArchivos, privado } from "./comun";
 import { leerPdf } from "@/lib/manuales/pdf";
 import { calidadTexto, detectarCapitulos, nombreDesdeArchivo } from "@/lib/manuales/estructura";
 import { detectarRefsMir } from "@/lib/mir";
@@ -25,7 +25,9 @@ const formatosRef = new Map<string, number>();
 let totalChars = 0, totalPeticiones = 0;
 const detalle: string[] = [];
 let n = 0;
-for (const a of archivos.filter((x) => path.extname(x.relativa).toLowerCase() === ".pdf")) {
+const examenes = archivos.filter((x) => esExamen(x.relativa));
+if (examenes.length) l.push("## PDF que parecen exámenes (no se cargan como manuales)\n", ...examenes.map((x) => `- ${x.relativa}`), "");
+for (const a of archivos.filter((x) => path.extname(x.relativa).toLowerCase() === ".pdf" && !esExamen(x.relativa))) {
   process.stdout.write(`Leyendo ${a.relativa}… `);
   try {
     const pdf = await leerPdf(a.absoluta);

@@ -28,6 +28,9 @@ Tras cambiar `src/db/schema.ts`: `npm run db:generate` (crea la migración en `d
 Pasos detallados (también para Windows) en [PENDIENTE.md](PENDIENTE.md).
 
 ## Manuales y tarjetas (scripts locales)
+En Windows basta con doble clic en `MANUALES.bat` (instala dependencias, pide las claves la primera vez y ejecuta
+los tres pasos). Equivalente manual:
+
 La app desplegada no lee los manuales. Los scripts se ejecutan en tu ordenador (Windows, macOS o Linux) y escriben
 en la misma base de datos (`DATABASE_URL` en `.env`). La carpeta de manuales (`MANUALES_DIR`, p. ej.
 `MANUALES_DIR='C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES'`) solo se lee; nada derivado de ella se sube a git.

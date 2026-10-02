@@ -4,13 +4,15 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+import { limpiarUrlBd } from "../src/db/url";
 
 const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
 if (!url) {
   console.log("DATABASE_URL no definida: se omiten las migraciones.");
   process.exit(0);
 }
-const cliente = postgres(url, { max: 1 });
+const cliente = postgres(limpiarUrlBd(url), { max: 1 });
+console.log("Aplicando migraciones…");
 await migrate(drizzle(cliente), { migrationsFolder: "drizzle" });
 await cliente.end();
 console.log("Migraciones aplicadas.");

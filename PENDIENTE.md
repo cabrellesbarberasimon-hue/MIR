@@ -23,35 +23,19 @@ Hecho: `main` contiene la app (Vercel despliega esa rama en producción).
 - Acceso: contraseña `APP_PASSWORD` (se dio en el chat; cámbiala en *Settings → Environment Variables* y redespliega).
 - La protección de Vercel solo afecta a las *Preview*; el dominio de producción es accesible con la contraseña de la app.
 
-## 5. Entorno local en tu PC (Windows) para los scripts de manuales
-Requisitos: [Node.js LTS](https://nodejs.org) y [Git](https://git-scm.com). En PowerShell:
-```powershell
-git clone https://github.com/cabrellesbarberasimon-hue/MIR.git
-cd MIR
-npm install
-copy .env.example .env
-notepad .env
-```
-En `.env`:
-- `DATABASE_URL`: la de Neon (Vercel → proyecto `mir-estudio` → *Storage* → tu base Neon → *Open in Neon* →
-  *Connect* → copia la cadena de conexión). Así los scripts escriben en la misma base que usa la app desplegada.
-  (`vercel env pull` no sirve aquí: las variables de Neon son "sensitive" y no se pueden descargar.)
-- `MANUALES_DIR='C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES'` (ya viene así; las comillas simples
-  son necesarias por los espacios).
-- `ANTHROPIC_API_KEY=sk-ant-...` (https://console.anthropic.com → API keys; requiere añadir saldo).
-- `APP_PASSWORD` y `SESSION_SECRET`: solo si quieres usar `npm run dev` en local.
-
-OneDrive: si los PDF están «solo en línea» (icono de nube), clic derecho en la carpeta MANUALES →
-*Mantener siempre en este dispositivo*, para que los scripts puedan leerlos sin esperas.
-
-## 6. Análisis de los manuales y carga
-No pude acceder a la carpeta de manuales (está en tu PC, no en el entorno de desarrollo). En PowerShell, dentro de `MIR`:
-```powershell
-npm run analizar-manuales         # informe en privado/analisis-manuales.md (formatos, capítulos, refs MIR, coste)
-npm run cargar-manuales           # capítulos → temas (crea asignaturas/temas que falten); idempotente
-```
-Revisa el informe: si los formatos de referencia MIR o la detección de capítulos no encajan, ajusta
-`src/lib/mir.ts` / `src/lib/manuales/estructura.ts` (tienen tests). Corrige asociaciones en la app: Más → Manuales.
+## 5-6. Cargar los manuales desde tu PC (doble clic)
+No se puede hacer desde la nube: los manuales están en tu PC
+(`C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES`) y son privados.
+1. Instala [Node.js LTS](https://nodejs.org) (siguiente, siguiente…).
+2. Descarga el código: GitHub → repo `MIR` → botón verde *Code* → *Download ZIP* → descomprímelo (p. ej. en Documentos).
+3. Ten a mano la cadena de conexión de Neon: Vercel → `mir-estudio` → *Storage* → tu base → *Open in Neon* →
+   *Connect* → copia la cadena (`postgresql://…`).
+4. Doble clic en **`MANUALES.bat`**. La primera vez pide la cadena de Neon, la carpeta de manuales (Enter = la tuya)
+   y la clave de Anthropic (Enter para saltarla). Analiza los manuales, carga capítulos → temas en la app y, si hay
+   clave, estima el coste y pregunta antes de generar tarjetas. Se puede volver a abrir: continúa donde lo dejó.
+Los PDF cuyo nombre parece de examen/simulacro/plantilla se omiten (la app no tiene banco de preguntas).
+Revisa luego en la app *Más → Manuales* las asociaciones capítulo → tema.
+OneDrive: si los PDF están «solo en línea», clic derecho en MANUALES → *Mantener siempre en este dispositivo*.
 
 ## 7. Generación de tarjetas con IA (falta ANTHROPIC_API_KEY)
 El script está terminado y probado con un generador simulado. Pasos:

@@ -24,6 +24,15 @@ export function dirManuales(): string {
 
 export const EXTENSIONES = new Set([".pdf"]);
 
+/**
+ * PDFs que no son manuales (exámenes, simulacros, plantillas de respuestas…): no se cargan como asignaturas.
+ * La app no incluye banco de preguntas; los resultados de exámenes se registran en "Registrar".
+ */
+const NO_MANUAL = /(examen|ex[aá]menes|simulacro|plantilla|respuestas|preguntas|soluciones|test(?!\p{L})|convocatoria|cuadernillo)/iu;
+export function esExamen(rutaRelativa: string) {
+  return NO_MANUAL.test(rutaRelativa.normalize("NFC"));
+}
+
 /** Lista recursiva de archivos (rutas relativas a la carpeta de manuales). */
 export async function listarArchivos(dir = dirManuales()): Promise<{ relativa: string; absoluta: string; bytes: number }[]> {
   const out: { relativa: string; absoluta: string; bytes: number }[] = [];

@@ -3,7 +3,7 @@
 // Uso: npm run cargar-manuales [-- --forzar] [-- --solo "Cardio"]
 // Es idempotente: los manuales sin cambios se saltan.
 import path from "node:path";
-import { arg, dirManuales, listarArchivos } from "./comun";
+import { arg, dirManuales, esExamen, listarArchivos } from "./comun";
 import { leerPdf } from "@/lib/manuales/pdf";
 import { cargarManual } from "@/lib/manuales/procesar";
 
@@ -12,6 +12,9 @@ const solo = arg("solo")?.toLowerCase();
 const archivos = (await listarArchivos(dirManuales()))
   .filter((a) => path.extname(a.relativa).toLowerCase() === ".pdf")
   .filter((a) => !solo || a.relativa.toLowerCase().includes(solo));
+const examenes = archivos.filter((a) => esExamen(a.relativa));
+if (examenes.length) console.log(`Se omiten ${examenes.length} PDF que parecen exámenes/simulacros: ${examenes.map((a) => a.relativa).join(", ")}`);
+archivos.splice(0, archivos.length, ...archivos.filter((a) => !esExamen(a.relativa)));
 
 console.log(`${archivos.length} PDF en ${dirManuales()}`);
 let errores = 0;

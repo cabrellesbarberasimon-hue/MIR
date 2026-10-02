@@ -57,3 +57,6 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Migraciones con `DATABASE_URL_UNPOOLED` si existe (la crea la integración de Neon): las migraciones van mejor sin pooler.
 - `MANUALES_DIR` admite rutas de Windows con espacios y comillas; las rutas de los manuales se guardan con "/" para que el mismo manual se reconozca desde cualquier sistema.
 - Acceso de otra persona: se comparte el dominio de producción y `APP_PASSWORD`; la app sigue siendo de un único usuario (no hace falta sistema de cuentas para el caso descrito).
+- `MANUALES.bat` + PowerShell (compatible con 5.1, `.env` sin BOM): un doble clic en Windows sustituye a instalar Git y usar la terminal.
+- Los PDF con nombre de examen/simulacro/plantilla se omiten al cargar: no son manuales y crearían asignaturas falsas; la spec no incluye banco de preguntas.
+- Se elimina `channel_binding` de la URL de Neon antes de conectar: el driver `postgres` lo envía como parámetro de servidor y Postgres lo rechaza.
