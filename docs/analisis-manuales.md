@@ -14,9 +14,12 @@ Inspección real hecha en el PC del usuario (24 PDF en `MANUALES/`, formato Wind
   (verificada contra el índice/primeras páginas reales de cada PDF, no solo por el nombre), con test en
   `tests/manuales.test.ts`. El resto de manuales (nombres normales) ya funcionaban bien.
 - **Detección de capítulos**: para los 20 manuales AMIR funciona por marcadores del PDF (método "índice PDF"),
-  con un número de capítulos razonable (coincide con los "Tema N" reales). `MnURMIR19aED_v3.pdf` no tiene
-  marcadores y cae al método de encabezados "Tema N" en página, que también funciona. No hizo falta tocar
-  `detectarCapitulos`.
+  pero inicialmente creaba un capítulo por cada subapartado (83 en Cardiología en vez de ~17 Temas reales):
+  su índice es plano y "Tema N" no lleva título propio, queda hermano -no padre- de "N.M …" en el mismo
+  nivel. Se ajustó `detectarCapitulos` (`agruparPorMarcador`) para agrupar cada marcador con los subapartados
+  que lo siguen hasta el próximo marcador — verificado contra el contenido real de varios manuales antes de
+  recargar la base de datos. `MnURMIR19aED_v3.pdf` no tiene marcadores y cae al método de encabezados
+  "Tema N" en página, que ya funcionaba bien.
 - **Referencias MIR**: los formatos reales encontrados (`(MIR)`, `(MIR 99, 999)`, `(MIR 99, 99)`, listas con
   `;` y combinaciones, años de 2/3/4 cifras) ya estaban cubiertos por `src/lib/mir.ts`; el de 3 cifras se
   descarta correctamente como número de pregunta. No hizo falta tocar el regex.

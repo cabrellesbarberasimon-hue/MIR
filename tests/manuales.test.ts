@@ -52,6 +52,30 @@ describe("estructura de manuales", () => {
     ]);
   });
 
+  it("marcadores 'Tema N' sin título propio, hermanos de sus subapartados (manuales AMIR)", () => {
+    // El índice es plano: "Tema 1" no lleva título y es hermano (incluso de nivel distinto) de "1.2 …",
+    // no su padre. El capítulo agrupa todos los subapartados hasta el siguiente marcador.
+    const c = detectarCapitulos(["a", "b", "c", "d", "e", "f", "g", "h"], [
+      { titulo: "Tema 1", pagina: 1, nivel: 0 },
+      { titulo: "1.2. Fisiología básica", pagina: 2, nivel: 0 },
+      { titulo: "1.4. Potencial de acción", pagina: 3, nivel: 0 },
+      { titulo: "Tema 2", pagina: 5, nivel: 0 },
+      { titulo: "2.2. Pulso arterial", pagina: 6, nivel: 0 },
+    ], "X");
+    expect(c).toEqual([
+      { titulo: "Fisiología básica", paginaInicio: 1, paginaFin: 4 },
+      { titulo: "Pulso arterial", paginaInicio: 5, paginaFin: 8 },
+    ]);
+  });
+
+  it("marcadores 'Tema N' consecutivos sin subapartado que los rellene: no se pierden", () => {
+    const c = detectarCapitulos(["a", "b", "c"], [
+      { titulo: "Tema 1", pagina: 1, nivel: 0 },
+      { titulo: "Tema 2", pagina: 2, nivel: 0 },
+    ], "X");
+    expect(c.map((x) => x.titulo)).toEqual(["Tema", "Tema"]);
+  });
+
   it("sin estructura → un único capítulo; calidad del texto", () => {
     expect(detectarCapitulos(["a", "b"], [], "Manual")).toEqual([{ titulo: "Manual", paginaInicio: 1, paginaFin: 2 }]);
     expect(calidadTexto(PAGINAS.slice(1))).toBe("texto");
