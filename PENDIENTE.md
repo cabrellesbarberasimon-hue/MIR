@@ -17,17 +17,11 @@ intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-e
 ## 3. ✅ Código en `main`
 Hecho: `main` contiene la app (Vercel despliega esa rama en producción).
 
-## 4. Vercel (proyecto `mir-estudio` ya creado por Claude)
-Hecho: proyecto `mir-estudio` en Vercel (región Frankfurt) con `APP_PASSWORD` y `SESSION_SECRET` configuradas
-(la contraseña se te dio en el chat; puedes cambiarla en *Settings → Environment Variables* y redesplegar).
-La protección de Vercel solo se aplica a las *Preview*: el dominio de producción es accesible con la contraseña de la app.
-
-Falta (requiere tu cuenta, no se puede hacer por API):
-1. **Conectar GitHub:** https://vercel.com/cabrellesbarberasimon-6874/mir-estudio/settings/git → *Connect Git Repository*
-   → GitHub → autoriza e instala la app de Vercel para `cabrellesbarberasimon-hue/MIR` → elige el repo `MIR`.
-2. **Crear la base de datos:** https://vercel.com/cabrellesbarberasimon-6874/mir-estudio/stores → *Create Database*
-   → **Neon** → plan Free, región Frankfurt → *Connect* al proyecto (todos los entornos).
-Después Claude lanza el despliegue de producción y comprueba que funciona.
+## 4. ✅ Desplegado en Vercel
+- URL de producción: **https://mir-estudio.vercel.app** (proyecto `mir-estudio`, región Frankfurt).
+- Base de datos Neon conectada; las tablas se crean en cada build. GitHub conectado: cada push a `main` redespliega.
+- Acceso: contraseña `APP_PASSWORD` (se dio en el chat; cámbiala en *Settings → Environment Variables* y redespliega).
+- La protección de Vercel solo afecta a las *Preview*; el dominio de producción es accesible con la contraseña de la app.
 
 ## 5. Entorno local en tu PC (Windows) para los scripts de manuales
 Requisitos: [Node.js LTS](https://nodejs.org) y [Git](https://git-scm.com). En PowerShell:
@@ -39,8 +33,9 @@ copy .env.example .env
 notepad .env
 ```
 En `.env`:
-- `DATABASE_URL`: la de Neon (Vercel → *Storage* → tu base → *.env.local* → *Show secret* → copia
-  `DATABASE_URL`). Así los scripts escriben en la misma base que usa la app desplegada.
+- `DATABASE_URL`: la de Neon (Vercel → proyecto `mir-estudio` → *Storage* → tu base Neon → *Open in Neon* →
+  *Connect* → copia la cadena de conexión). Así los scripts escriben en la misma base que usa la app desplegada.
+  (`vercel env pull` no sirve aquí: las variables de Neon son "sensitive" y no se pueden descargar.)
 - `MANUALES_DIR='C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES'` (ya viene así; las comillas simples
   son necesarias por los espacios).
 - `ANTHROPIC_API_KEY=sk-ant-...` (https://console.anthropic.com → API keys; requiere añadir saldo).
