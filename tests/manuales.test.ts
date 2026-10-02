@@ -40,6 +40,28 @@ describe("estructura de manuales", () => {
     ]);
   });
 
+  it("encabezados 'Tema N' partidos en dos líneas (número solo + título debajo)", () => {
+    // Sin índice de PDF (p. ej. manual de Urología): el encabezado real va "Tema N" en una línea y el
+    // título en la siguiente, no en la misma línea como en PAGINAS.
+    const c = detectarCapitulos([
+      "ÍNDICE\nTema 1 Anatomía ....11\nTema 2 Fisiología ....17",
+      "11\nTema 1\nAnatomía\nAutores: X.\nTexto de relleno.", "más texto",
+      "17\nTema 2\nFisiología\nAutores: X.\nOtro texto de relleno.", "más texto",
+    ], [], "Urología");
+    expect(c.map((x) => [x.titulo, x.paginaInicio, x.paginaFin])).toEqual([
+      ["Anatomía", 2, 3], ["Fisiología", 4, 5],
+    ]);
+  });
+
+  it("ignora filas de tabla de frecuencias ('Tema N. Título 3 2 1 ...') sin puntos suspensivos", () => {
+    const c = detectarCapitulos([
+      "Distribución por temas\nTema 7. Litiasis urinaria 3 2 1 2 1 1 1 11\nTema 5. Infecciones 1 1 1 2 1 9",
+      "11\nTema 7\nLitiasis urinaria\nTexto de relleno.", "más",
+    ], [], "Urología");
+    // Sin un segundo "Tema N" real no hay ≥2 inicios: cae al manual entero (no se cuela la fila de tabla).
+    expect(c).toEqual([{ titulo: "Urología", paginaInicio: 1, paginaFin: 3 }]);
+  });
+
   it("capítulos por marcadores del PDF (prioritarios)", () => {
     const c = detectarCapitulos(PAGINAS, [
       { titulo: "Portada", pagina: 1, nivel: 0 },

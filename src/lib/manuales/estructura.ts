@@ -128,17 +128,34 @@ export function detectarCapitulos(paginas: string[], indice: EntradaIndice[], ti
       if (filtrado.length) return cerrar(agruparPorMarcador(filtrado), total);
     }
   }
+  // Marcador bare "Tema N" solo en su línea, con el título en la línea siguiente (frecuente cuando no
+  // hay marcadores de PDF: el encabezado real va partido en dos líneas, "Tema N" y el título debajo).
+  const RE_MARCADOR_SOLO = /^\s*(?:tema|cap[ií]tulo)\s+(\d{1,3}|[ivxlc]{1,7})\.?\s*$/i;
+  // Filas de tablas tipo "Distribución por temas" ("Tema 7. Litiasis urinaria 3 2 1 2 1 1 1 11"): varios
+  // números sueltos separados por espacios, sin los puntos suspensivos del índice pero igual de falsas.
+  const esFilaDeTabla = (l: string) => (l.match(/\d+/g)?.length ?? 0) >= 4;
   const inicios: { titulo: string; pagina: number }[] = [];
   const vistos = new Set<string>();
   paginas.forEach((texto, i) => {
     const lineas = texto.split("\n").map((l) => l.trim()).filter(Boolean).slice(0, 6);
-    for (const l of lineas) {
-      const m = l.match(RE_CAPITULO);
-      if (m && !/\.{3,}/.test(l)) { // ignora líneas de índice "Tema 3 ........ 45"
+    for (let j = 0; j < lineas.length; j++) {
+      const l = lineas[j];
+      if (/\.{3,}/.test(l) || esFilaDeTabla(l)) continue; // ignora líneas de índice "Tema 3 ........ 45" y tablas de frecuencias
+      let m = l.match(RE_CAPITULO);
+      let titulo = m?.[2];
+      if (!m) {
+        const siguiente = lineas[j + 1];
+        const bare = l.match(RE_MARCADOR_SOLO);
+        if (bare && siguiente && siguiente.length >= 3 && !/\.{3,}/.test(siguiente) && !esFilaDeTabla(siguiente)) {
+          m = bare;
+          titulo = siguiente;
+        }
+      }
+      if (m && titulo) {
         const clave = m[1].toLowerCase();
         if (!vistos.has(clave)) {
           vistos.add(clave);
-          inicios.push({ titulo: m[2], pagina: i + 1 });
+          inicios.push({ titulo, pagina: i + 1 });
         }
         break;
       }
