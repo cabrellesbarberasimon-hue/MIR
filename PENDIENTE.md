@@ -40,12 +40,17 @@ secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo di
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
 ## 5. Progreso de las tarjetas (informativo, sigo trabajando solo)
-A fecha de hoy: **37/350 capítulos, 1.985 tarjetas** (vía sin API, validadas con cita literal obligatoria).
-Lo hice primero en paralelo con varios subagentes a la vez (mucho más rápido), pero a partir de cierto punto
-dejé de poder lanzarlos ("Fork is not available inside a forked worker") y sigo capítulo a capítulo yo solo,
-más lento. No es nada que tengas que arreglar tú; si en una futura sesión quieres que vuelva a intentar el
-modo paralelo, pídemelo y lo pruebo de nuevo. Puedes revisar el avance en la app (Más → Manuales) o
-preguntándome directamente.
+A fecha de hoy: **59/346 capítulos, 2.780 tarjetas** (vía sin API, validadas con cita literal obligatoria;
+no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su tamaño desproporcionado
+— ver nota más abajo). Lo hice primero en paralelo con varios subagentes a la vez (mucho más rápido: ~500
+tarjetas en pocos minutos), pero en un momento dado dejé de poder lanzarlos en paralelo ("Fork is not
+available inside a forked worker") y sigo capítulo a capítulo yo solo, más lento pero constante. No es nada
+que tengas que arreglar tú; si en una futura sesión quieres que vuelva a intentar el modo paralelo, pídemelo
+y lo pruebo de nuevo. Puedes revisar el avance en la app (Más → Manuales) o preguntándome directamente.
+
+Pendiente de decidir: la sección 567 ("Actualizaciones MIR", el único capítulo de ese manual, 113 páginas
+y 278 fragmentos — mucho más grande que cualquier otro) la dejé fuera de la cola automática por su tamaño;
+si quieres que la procese igualmente dímelo (llevará varias tandas de trabajo solo para ese capítulo).
 
 ## Ya hecho (contexto, no requiere acción)
 - Código en `main`. Despliegue: en transición de `mir-estudio.vercel.app` (app antigua, cuenta de Vercel que
