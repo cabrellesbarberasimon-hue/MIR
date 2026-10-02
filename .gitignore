@@ -1,0 +1,34 @@
+# Dependencias y build
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Secretos: NUNCA subir
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Manuales y cualquier dato derivado de ellos (privados del usuario)
+manuales/
+**/manuales/
+*.pdf
+*.PDF
+*.epub
+*.docx
+privado/
+datos/
+cache-manuales/
+docs/muestra-tarjetas.md
+*.dump
+*.sql.gz
+
+# Varios
+.DS_Store
+.vercel
+npm-debug.log*
