@@ -17,29 +17,17 @@ intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-e
 ## 3. ✅ Código en `main`
 Hecho: `main` contiene la app (Vercel despliega esa rama en producción).
 
-## 4. Desplegar en Vercel desde el navegador
-Desde el entorno de desarrollo no se puede: la red bloquea `api.vercel.com` y `console.neon.tech`, y el conector
-de Vercel de claude.ai no está conectado. Para que Claude lo haga en otra sesión: conecta Vercel en
-https://claude.ai/customize/connectors y añade `api.vercel.com` y `console.neon.tech` a los dominios permitidos del
-entorno (menú del entorno → Edit → Network access); después abre una sesión nueva. O hazlo a mano:
-1. Entra en https://vercel.com con tu cuenta de GitHub → *Add New… → Project* → *Import* `cabrellesbarberasimon-hue/MIR`.
-   No cambies la configuración (Vercel detecta Next.js). Despliega *Environment Variables* y añade:
-   - `APP_PASSWORD` = la contraseña que darás a la persona que va a usar la app.
-   - `SESSION_SECRET` = una cadena aleatoria (32 caracteres o más). Por ejemplo, en PowerShell:
-     `-join ((48..57)+(97..122) | Get-Random -Count 32 | % {[char]$_})`
-   Pulsa *Deploy*. Este primer despliegue aún no tiene base de datos: es normal que la app dé error.
-2. Base de datos: en el proyecto, pestaña *Storage* → *Create Database* → **Neon** (plan Free) → región Europa
-   (Frankfurt) → conéctala a todos los entornos (Production, Preview, Development). Esto crea `DATABASE_URL`.
-3. *Deployments* → en el último, *⋯ → Redeploy*. Ahora el build crea las tablas y la app funciona.
-4. Comprueba que entras con la contraseña en el dominio de producción.
-5. **Enlace a enviar:** el dominio de producción que aparece en el proyecto (`https://<nombre>.vercel.app`, en
-   *Settings → Domains* puedes cambiar el nombre). Envía ese enlace y la contraseña `APP_PASSWORD`.
-   No envíes enlaces de *Preview* (los que llevan letras aleatorias): Vercel los protege y pediría iniciar sesión en Vercel.
-   En el móvil, desde el navegador → «Añadir a pantalla de inicio» se usa como una app.
+## 4. Vercel (proyecto `mir-estudio` ya creado por Claude)
+Hecho: proyecto `mir-estudio` en Vercel (región Frankfurt) con `APP_PASSWORD` y `SESSION_SECRET` configuradas
+(la contraseña se te dio en el chat; puedes cambiarla en *Settings → Environment Variables* y redesplegar).
+La protección de Vercel solo se aplica a las *Preview*: el dominio de producción es accesible con la contraseña de la app.
 
-Nota: la app es de un único usuario (una contraseña y un único conjunto de datos). Si varias personas
-necesitan cada una sus propios datos, cada una necesita su propio despliegue (repetir pasos 1-3) o habría que
-añadir cuentas de usuario.
+Falta (requiere tu cuenta, no se puede hacer por API):
+1. **Conectar GitHub:** https://vercel.com/cabrellesbarberasimon-6874/mir-estudio/settings/git → *Connect Git Repository*
+   → GitHub → autoriza e instala la app de Vercel para `cabrellesbarberasimon-hue/MIR` → elige el repo `MIR`.
+2. **Crear la base de datos:** https://vercel.com/cabrellesbarberasimon-6874/mir-estudio/stores → *Create Database*
+   → **Neon** → plan Free, región Frankfurt → *Connect* al proyecto (todos los entornos).
+Después Claude lanza el despliegue de producción y comprueba que funciona.
 
 ## 5. Entorno local en tu PC (Windows) para los scripts de manuales
 Requisitos: [Node.js LTS](https://nodejs.org) y [Git](https://git-scm.com). En PowerShell:
