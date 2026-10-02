@@ -46,6 +46,9 @@ export async function crearTemas(asignaturaId: number, nombres: string[]) {
 export async function renombrarTema(id: number, nombre: string) {
   await getDb().update(temas).set({ nombre: nombre.trim() }).where(eq(temas.id, id));
 }
+export async function guardarNotasTema(id: number, notas: string) {
+  await getDb().update(temas).set({ notas: notas.trim() || null }).where(eq(temas.id, id));
+}
 export async function borrarTema(id: number) {
   await getDb().delete(temas).where(eq(temas.id, id));
 }

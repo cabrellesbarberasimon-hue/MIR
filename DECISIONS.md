@@ -60,3 +60,10 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - `MANUALES.bat` + PowerShell (compatible con 5.1, `.env` sin BOM): un doble clic en Windows sustituye a instalar Git y usar la terminal.
 - Los PDF con nombre de examen/simulacro/plantilla se omiten al cargar: no son manuales y crearían asignaturas falsas; la spec no incluye banco de preguntas.
 - Se elimina `channel_binding` de la URL de Neon antes de conectar: el driver `postgres` lo envía como parámetro de servidor y Postgres lo rechaza.
+
+## Funciones de estudio añadidas a petición del usuario
+- Cuenta atrás al MIR y objetivo diario de preguntas (Ajustes) con barra de progreso y racha en "Hoy": motivación sin ruido.
+- Racha: días seguidos cumpliendo el objetivo (o, sin objetivo, con cualquier actividad); hoy no la rompe hasta que acaba el día.
+- Temporizador Pomodoro (25/50/90 + descanso de 5) que guarda los minutos en `sesiones_estudio`; usa hora de fin real para no desajustarse si el móvil bloquea la pestaña.
+- Notas por tema (campo `temas.notas` ya existente) y tarjetas propias (`tarjetas.origen = 'propia'`, sin fragmento), también creadas desde un error: lo que fallas se convierte en repaso FSRS.
+- Buscador global sin tildes (temas y sus notas, conceptos, notas de errores, tarjetas) con `translate/lower` en SQL: sin índices extra, suficiente para un usuario.

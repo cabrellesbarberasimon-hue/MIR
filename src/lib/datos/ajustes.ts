@@ -17,5 +17,7 @@ export async function guardarAjustes(datos: Partial<Omit<Ajustes, "id">>) {
   const limpio = { ...datos };
   if (limpio.nuevasPorDia != null) limpio.nuevasPorDia = Math.max(0, Math.min(200, Math.round(limpio.nuevasPorDia)));
   if (limpio.maxPorDia != null) limpio.maxPorDia = Math.max(1, Math.min(500, Math.round(limpio.maxPorDia)));
+  if (limpio.objetivoPreguntas != null) limpio.objetivoPreguntas = Math.max(0, Math.min(1000, Math.round(limpio.objetivoPreguntas) || 0));
+  if (limpio.fechaExamen !== undefined && limpio.fechaExamen && !/^\d{4}-\d{2}-\d{2}$/.test(limpio.fechaExamen)) limpio.fechaExamen = null;
   await getDb().update(ajustes).set(limpio).where(eq(ajustes.id, 1));
 }

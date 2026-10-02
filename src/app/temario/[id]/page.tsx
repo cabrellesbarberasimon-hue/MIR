@@ -6,7 +6,7 @@ import { tarjetasDeTema } from "@/lib/datos/tarjetas";
 import { getDb } from "@/db";
 import { bloquesPreguntas } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
-import { accBorrarTema, accRenombrarTema } from "@/app/acciones";
+import { accBorrarTema, accGuardarNotas, accRenombrarTema } from "@/app/acciones";
 import { CasillaRealizado } from "../casilla-realizado";
 import { pct, textoMotivo } from "@/lib/etiquetas";
 
@@ -41,6 +41,17 @@ export default async function Tema({ params }: { params: Promise<{ id: string }>
       </div>
 
       <Link href={`/registrar?tema=${tema.id}`} className="btn-primario">Registrar preguntas o errores</Link>
+      <div className="grid grid-cols-2 gap-3">
+        <Link href={`/tarjetas/nueva?tema=${tema.id}`} className="btn-sec">＋ Tarjeta propia</Link>
+        <Link href={`/temporizador?tema=${tema.id}`} className="btn-sec">Temporizador</Link>
+      </div>
+
+      <form action={accGuardarNotas} className="caja flex flex-col gap-2">
+        <h2 className="titulo">Mis notas</h2>
+        <input type="hidden" name="id" value={tema.id} />
+        <textarea name="notas" defaultValue={tema.notas ?? ""} placeholder="Reglas mnemotécnicas, lo que siempre olvido, dudas…" className="campo min-h-28 py-2" />
+        <button className="btn-sec self-end">Guardar notas</button>
+      </form>
 
       <section className="caja">
         <h2 className="titulo mb-2">Errores</h2>
@@ -52,6 +63,9 @@ export default async function Tema({ params }: { params: Promise<{ id: string }>
                 {e.concepto && <span className="sub"> · {textoMotivo(e.motivo)}</span>}
                 <span className="sub"> · {e.fecha}{e.origen === "tarjeta" ? " · tarjeta" : ""}</span>
                 {e.nota && <p className="mt-0.5">{e.nota}</p>}
+                {e.origen !== "tarjeta" && (e.nota || e.concepto) && (
+                  <Link className="sub underline" href={`/tarjetas/nueva?tema=${tema.id}${e.concepto ? `&concepto=${encodeURIComponent(e.concepto)}` : ""}${e.nota ? `&respuesta=${encodeURIComponent(e.nota)}` : ""}`}>→ convertir en tarjeta</Link>
+                )}
               </li>
             ))}
           </ul>

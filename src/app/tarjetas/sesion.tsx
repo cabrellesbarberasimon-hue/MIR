@@ -92,7 +92,9 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
             </div>
           )}
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm [&>*]:whitespace-nowrap">
-            <button className="sub underline" onClick={() => setFuente(!fuente)}>Fuente{t.pagina ? ` · pág. ${t.pagina}` : ""}</button>
+            {t.fragmento ? (
+              <button className="sub underline" onClick={() => setFuente(!fuente)}>Fuente{t.pagina ? ` · pág. ${t.pagina}` : ""}</button>
+            ) : <span className="sub">Tarjeta propia</span>}
             {t.refsMir.length > 0 && <span className="sub">MIR {[...new Set(t.refsMir)].sort().join(", ")}</span>}
             <button className="sub ml-auto underline" onClick={marcarMal}>Esta tarjeta está mal</button>
           </div>

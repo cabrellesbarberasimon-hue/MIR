@@ -12,6 +12,7 @@ import * as registro from "@/lib/datos/registro";
 import * as rep from "@/lib/datos/repasos";
 import * as tj from "@/lib/datos/tarjetas";
 import { guardarAjustes } from "@/lib/datos/ajustes";
+import { registrarEstudio } from "@/lib/datos/estudio";
 import { asociarSeccion } from "@/lib/datos/manuales";
 
 async function sesion() {
@@ -207,6 +208,8 @@ export async function accGuardarAjustes(fd: FormData) {
     maxPorDia: Number(fd.get("maxPorDia")),
     revisionPrevia: fd.get("revisionPrevia") === "on",
     preguntarMotivo: fd.get("preguntarMotivo") === "on",
+    objetivoPreguntas: Number(fd.get("objetivoPreguntas") ?? 0),
+    fechaExamen: String(fd.get("fechaExamen") ?? "") || null,
   });
   refrescar();
 }
@@ -216,4 +219,29 @@ export async function accAsociarSeccion(fd: FormData) {
   const temaId = fd.get("temaId") ? id.parse(fd.get("temaId")) : null;
   await asociarSeccion(id.parse(fd.get("seccionId")), temaId);
   refrescar();
+}
+
+// ───── Estudio: temporizador, notas y tarjetas propias ─────
+export async function accRegistrarEstudio(minutos: number, temaId: number | null) {
+  await sesion();
+  await registrarEstudio(z.number().min(0).max(600).parse(minutos), temaId == null ? null : id.parse(temaId));
+  refrescar();
+}
+
+export async function accGuardarNotas(fd: FormData) {
+  await sesion();
+  await temario.guardarNotasTema(id.parse(fd.get("id")), String(fd.get("notas") ?? "").slice(0, 20000));
+  refrescar();
+}
+
+export async function accCrearTarjeta(fd: FormData) {
+  await sesion();
+  const pregunta = String(fd.get("pregunta") ?? "").trim().slice(0, 1000);
+  const respuesta = String(fd.get("respuesta") ?? "").trim().slice(0, 1000);
+  const temaId = id.parse(fd.get("temaId"));
+  if (!pregunta || !respuesta) return;
+  await tj.crearTarjetaPropia({ temaId, pregunta, respuesta, concepto: String(fd.get("concepto") ?? "").slice(0, 200) });
+  refrescar();
+  const volver = String(fd.get("volver") ?? "");
+  redirect(/^\/(?!\/)/.test(volver) ? volver : `/temario/${temaId}`);
 }

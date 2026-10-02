@@ -104,7 +104,18 @@ export const ajustes = pgTable("ajustes", {
   maxPorDia: integer().notNull().default(30),
   revisionPrevia: boolean().notNull().default(false),
   preguntarMotivo: boolean().notNull().default(true),
+  fechaExamen: date(), // cuenta atrás en "Hoy"
+  objetivoPreguntas: integer().notNull().default(0), // preguntas/día (0 = sin objetivo)
 });
+
+// Tiempo de estudio (temporizador). Capa de registro: no toca la planificación.
+export const sesionesEstudio = pgTable("sesiones_estudio", {
+  id: serial().primaryKey(),
+  fecha: date().notNull(),
+  minutos: integer().notNull(),
+  temaId: integer().references(() => temas.id, { onDelete: "set null" }),
+  creadoEn: ahora(),
+}, (t) => [index("sesiones_fecha").on(t.fecha)]);
 
 // ───────────── Fase 2: manuales y tarjetas ─────────────
 
@@ -158,6 +169,7 @@ export const tarjetas = pgTable("tarjetas", {
   refsMir: jsonb().$type<number[]>().notNull().default([]),
   prioridad: real().notNull().default(0),
   estado: text({ enum: ESTADOS_TARJETA }).notNull().default("activa"),
+  origen: text({ enum: ["ia", "propia"] }).notNull().default("ia"), // propia = creada por el usuario
   comentarioMal: text(),
   // Estado FSRS
   due: timestamp({ withTimezone: true }).notNull().defaultNow(),

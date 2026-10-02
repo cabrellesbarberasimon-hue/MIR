@@ -37,6 +37,14 @@ Los PDF cuyo nombre parece de examen/simulacro/plantilla se omiten (la app no ti
 Revisa luego en la app *Más → Manuales* las asociaciones capítulo → tema.
 OneDrive: si los PDF están «solo en línea», clic derecho en MANUALES → *Mantener siempre en este dispositivo*.
 
+## 6b. Alternativa: que Claude procese los manuales en la nube
+1. Crea en GitHub un repositorio **privado** nuevo (p. ej. `MIR-manuales`) y sube los PDF con GitHub Desktop
+   (la web solo admite archivos de hasta 25 MB; Desktop hasta 100 MB por archivo).
+2. En la configuración del entorno de Claude (menú del entorno → *Edit*):
+   - *Network access*: permite `*.neon.tech` (para escribir en la base de datos de la app).
+   - Variables de entorno: `DATABASE_URL` (cadena de Neon) y, si quieres generación por API, `ANTHROPIC_API_KEY`.
+3. Abre una sesión nueva y pide «procesa los manuales del repo MIR-manuales». Los PDF nunca se copian al repo de la app.
+
 ## 7. Generación de tarjetas con IA (falta ANTHROPIC_API_KEY)
 El script está terminado y probado con un generador simulado. Pasos:
 ```powershell

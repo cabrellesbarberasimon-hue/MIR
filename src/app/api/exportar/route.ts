@@ -26,6 +26,7 @@ export async function GET() {
     secciones: await db.select(columnasSeccion).from(s.secciones),
     tarjetas: await db.select().from(s.tarjetas),
     historialTarjetas: await db.select().from(s.historialTarjetas),
+    sesionesEstudio: await db.select().from(s.sesionesEstudio),
     ajustes: await db.select().from(s.ajustes),
   };
   return new Response(JSON.stringify(datos, null, 1), {

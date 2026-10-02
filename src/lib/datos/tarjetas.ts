@@ -7,6 +7,7 @@ import {
 } from "@/db/schema";
 import { hoy } from "@/lib/fechas";
 import { leerAjustes } from "./ajustes";
+import { asegurarConcepto } from "./temario";
 
 const planificador = fsrs({ enable_fuzz: true });
 
@@ -205,3 +206,13 @@ export async function tarjetasDeTema(temaId: number) {
     .orderBy(desc(tarjetas.prioridad), asc(tarjetas.id));
 }
 
+
+/** Tarjeta creada por el usuario (p. ej. a partir de un error). Entra como nueva en la sesión diaria. */
+export async function crearTarjetaPropia(d: { temaId: number; pregunta: string; respuesta: string; concepto?: string }) {
+  const conceptoId = d.concepto?.trim() ? await asegurarConcepto(d.temaId, d.concepto) : null;
+  const [t] = await getDb().insert(tarjetas).values({
+    temaId: d.temaId, conceptoId, pregunta: d.pregunta.trim(), respuesta: d.respuesta.trim(),
+    fragmento: "", origen: "propia", prioridad: 1, // un poco por delante de las nuevas sin referencias MIR
+  }).returning({ id: tarjetas.id });
+  return t.id;
+}
