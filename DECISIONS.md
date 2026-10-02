@@ -61,6 +61,8 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Los PDF con nombre de examen/simulacro/plantilla se omiten al cargar: no son manuales y crearían asignaturas falsas; la spec no incluye banco de preguntas.
 - Se elimina `channel_binding` de la URL de Neon antes de conectar: el driver `postgres` lo envía como parámetro de servidor y Postgres lo rechaza.
 
+- `tarjetas-sin-api`: el asistente local redacta las tarjetas y se importan con la misma validación que las de la API (cita literal), sin coste de API.
+
 ## Funciones de estudio añadidas a petición del usuario
 - Cuenta atrás al MIR y objetivo diario de preguntas (Ajustes) con barra de progreso y racha en "Hoy": motivación sin ruido.
 - Racha: días seguidos cumpliendo el objetivo (o, sin objetivo, con cualquier actividad); hoy no la rompe hasta que acaba el día.

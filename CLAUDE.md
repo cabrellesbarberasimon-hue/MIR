@@ -42,7 +42,8 @@ Aplicación web para estudiantes que preparan el MIR. `PRODUCT_SPEC.md` es la fu
 ## Comandos
 - `npm run dev` · `npm test` · `npm run lint` (tsc) · `npm run build`
 - `npm run db:generate` (tras cambiar el schema) · `npm run db:migrate`
-- `npm run analizar-manuales` · `npm run cargar-manuales` · `npm run generar-tarjetas`
+- `npm run analizar-manuales` · `npm run cargar-manuales` · `npm run generar-tarjetas` · `npm run tarjetas-sin-api`
+- Traspaso a Claude en local: `docs/TRASPASO.md`
 
 ## Generación de tarjetas
 - Prompt en `src/lib/manuales/generador.ts` (`PROMPT_SISTEMA`, `VERSION_PROMPT`). Reglas 14.5: un concepto por tarjeta,

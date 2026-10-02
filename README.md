@@ -43,7 +43,8 @@ npm run generar-tarjetas -- --seccion 12 --seco --muestra   # prueba un capítul
 npm run generar-tarjetas                           # genera lo pendiente (reanudable)
 npm run generar-tarjetas -- --todo                 # incluye temas sin planificación aunque cueste > 20 €
 ```
-Necesita `ANTHROPIC_API_KEY` en `.env`. Otras opciones: `--manual "texto"`, `--limite N`,
+Sin clave de API, un asistente (Claude Code en local) puede redactar las tarjetas: `npm run tarjetas-sin-api -- exportar --siguiente`, escribir el JSON y `... importar --seccion <id>` (ver docs/TRASPASO.md).
+La generación por API necesita `ANTHROPIC_API_KEY` en `.env`. Otras opciones: `--manual "texto"`, `--limite N`,
 `--esfuerzo low|medium|high`, `--simulado` (sin IA ni escritura, para probar el flujo).
 
 Cada tarjeta guarda la cita literal del manual y su página; las propuestas cuya cita no aparece en el texto se
