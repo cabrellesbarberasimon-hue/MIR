@@ -39,6 +39,14 @@ No está en el repositorio ni en este PC. La app se construyó a partir de tu pr
 secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo difiere de DECISIONS.md (motivos
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
+## 5. Progreso de las tarjetas (informativo, sigo trabajando solo)
+A fecha de hoy: **37/350 capítulos, 1.985 tarjetas** (vía sin API, validadas con cita literal obligatoria).
+Lo hice primero en paralelo con varios subagentes a la vez (mucho más rápido), pero a partir de cierto punto
+dejé de poder lanzarlos ("Fork is not available inside a forked worker") y sigo capítulo a capítulo yo solo,
+más lento. No es nada que tengas que arreglar tú; si en una futura sesión quieres que vuelva a intentar el
+modo paralelo, pídemelo y lo pruebo de nuevo. Puedes revisar el avance en la app (Más → Manuales) o
+preguntándome directamente.
+
 ## Ya hecho (contexto, no requiere acción)
 - Código en `main`. Despliegue: en transición de `mir-estudio.vercel.app` (app antigua, cuenta de Vercel que
   no controlo) a `mir-project` (ver punto 1) — hasta que conectes el repo, `mir-project` no se actualiza solo.
