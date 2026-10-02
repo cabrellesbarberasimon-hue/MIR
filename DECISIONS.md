@@ -63,6 +63,10 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 
 - `tarjetas-sin-api`: el asistente local redacta las tarjetas y se importan con la misma validación que las de la API (cita literal), sin coste de API.
 
+## Traspaso a Claude en local (Windows)
+- Se trabaja sobre la rama `main` (igual que `claude/nice-cerf-5ybw3q`, que queda como estaba): es la que despliega Vercel.
+- Test `resuelve rutas con comillas y ~` comparaba con una ruta POSIX fija (`/tmp/a b`): en Windows `path.resolve()` la trata como relativa a la unidad actual y el test fallaba sin que hubiera ningún fallo real en `resolverDir`. Se reescribió para comparar contra `path.resolve()` del propio sistema.
+
 ## Funciones de estudio añadidas a petición del usuario
 - Cuenta atrás al MIR y objetivo diario de preguntas (Ajustes) con barra de progreso y racha en "Hoy": motivación sin ruido.
 - Racha: días seguidos cumpliendo el objetivo (o, sin objetivo, con cualquier actividad); hoy no la rompe hasta que acaba el día.
