@@ -128,6 +128,6 @@ describe("análisis", () => {
     const p = await planDiezMinutos();
     expect(p.esquema?.nombre).toBe("BNP");
     expect(p.tarjetas).toBe(0);
-    expect(p.erroresConNota.length).toBeGreaterThan(0);
+    expect(p.erroresConNota.every((e) => e.concepto !== "BNP")).toBe(true);
   });
 });

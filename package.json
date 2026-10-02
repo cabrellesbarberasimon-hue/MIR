@@ -11,7 +11,6 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrar.ts",
-    "db:seed": "tsx scripts/seed.ts",
     "analizar-manuales": "tsx scripts/analizar-manuales.ts",
     "cargar-manuales": "tsx scripts/cargar-manuales.ts",
     "generar-tarjetas": "tsx scripts/generar-tarjetas.ts"
