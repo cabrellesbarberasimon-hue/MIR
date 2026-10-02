@@ -1,10 +1,11 @@
 // Aplica las migraciones de /drizzle a la base de DATABASE_URL.
+// Con Neon se usa la conexión directa (DATABASE_URL_UNPOOLED) si existe: las migraciones van mejor sin pooler.
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 
-const url = process.env.DATABASE_URL;
+const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
 if (!url) {
   console.log("DATABASE_URL no definida: se omiten las migraciones.");
   process.exit(0);

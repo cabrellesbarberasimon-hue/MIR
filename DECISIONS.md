@@ -51,3 +51,9 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Sin `fallbacks` de rechazo del servidor: con contenido médico de manual es improbable; si ocurre, el capítulo queda en "error" y se puede reintentar.
 - Si la estimación supera 20 €, el script procesa solo los temas con planificación salvo `--todo` (regla del prompt).
 - La muestra de tarjetas y el análisis real de manuales se escriben en `docs/muestra-tarjetas.md` y `privado/`, ignorados por git: derivan de los manuales y son privados.
+
+## Despliegue y Windows
+- Despliegue documentado desde el panel web de Vercel (sin CLI): es lo más sencillo en Windows y no requiere instalar nada.
+- Migraciones con `DATABASE_URL_UNPOOLED` si existe (la crea la integración de Neon): las migraciones van mejor sin pooler.
+- `MANUALES_DIR` admite rutas de Windows con espacios y comillas; las rutas de los manuales se guardan con "/" para que el mismo manual se reconozca desde cualquier sistema.
+- Acceso de otra persona: se comparte el dominio de producción y `APP_PASSWORD`; la app sigue siendo de un único usuario (no hace falta sistema de cuentas para el caso descrito).

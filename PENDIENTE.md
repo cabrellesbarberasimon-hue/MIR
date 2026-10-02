@@ -14,35 +14,54 @@ No estaba en el repositorio ni en el entorno. La app se ha construido a partir d
 secciones 13, 14, 14.5 y 15). Súbelo al repo y revisa si algo difiere de DECISIONS.md (motivos de error,
 intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
-## 3. Integrar la rama
-`git checkout main && git merge claude/nice-cerf-5ybw3q && git push` (o abre un PR desde GitHub).
+## 3. Llevar el código a `main`
+Vercel publica en producción la rama `main`, y el código está en `claude/nice-cerf-5ybw3q`.
+En GitHub: repo → aviso amarillo «claude/nice-cerf-5ybw3q had recent pushes» → *Compare & pull request* →
+*Create pull request* → *Merge pull request*.
 
-## 4. Base de datos y despliegue en Vercel (no hay sesión de Vercel en este entorno)
-```bash
-npm i -g vercel
-vercel login
-vercel link                       # crea el proyecto enlazado a este repo
-vercel integration add neon       # o en el panel: Storage → Create Database → Neon; define DATABASE_URL
-vercel env add APP_PASSWORD production       # tu contraseña para entrar en la app
-vercel env add SESSION_SECRET production     # pega el resultado de: openssl rand -hex 32
-vercel git connect                # despliegue automático en cada push a main (si no lo hizo `link`)
-vercel --prod                     # primer despliegue (aplica las migraciones al compilar)
-```
-Si usas otras ramas, añade también las variables al entorno *preview*.
+## 4. Desplegar en Vercel desde el navegador (desde aquí no tengo acceso a tu cuenta de Vercel)
+1. Entra en https://vercel.com con tu cuenta de GitHub → *Add New… → Project* → *Import* `cabrellesbarberasimon-hue/MIR`.
+   No cambies la configuración (Vercel detecta Next.js). Despliega *Environment Variables* y añade:
+   - `APP_PASSWORD` = la contraseña que darás a la persona que va a usar la app.
+   - `SESSION_SECRET` = una cadena aleatoria (32 caracteres o más). Por ejemplo, en PowerShell:
+     `-join ((48..57)+(97..122) | Get-Random -Count 32 | % {[char]$_})`
+   Pulsa *Deploy*. Este primer despliegue aún no tiene base de datos: es normal que la app dé error.
+2. Base de datos: en el proyecto, pestaña *Storage* → *Create Database* → **Neon** (plan Free) → región Europa
+   (Frankfurt) → conéctala a todos los entornos (Production, Preview, Development). Esto crea `DATABASE_URL`.
+3. *Deployments* → en el último, *⋯ → Redeploy*. Ahora el build crea las tablas y la app funciona.
+4. Comprueba que entras con la contraseña en el dominio de producción.
+5. **Enlace a enviar:** el dominio de producción que aparece en el proyecto (`https://<nombre>.vercel.app`, en
+   *Settings → Domains* puedes cambiar el nombre). Envía ese enlace y la contraseña `APP_PASSWORD`.
+   No envíes enlaces de *Preview* (los que llevan letras aleatorias): Vercel los protege y pediría iniciar sesión en Vercel.
+   En el móvil, desde el navegador → «Añadir a pantalla de inicio» se usa como una app.
 
-## 5. Entorno local para los scripts
-```bash
+Nota: la app es de un único usuario (una contraseña y un único conjunto de datos). Si varias personas
+necesitan cada una sus propios datos, cada una necesita su propio despliegue (repetir pasos 1-3) o habría que
+añadir cuentas de usuario.
+
+## 5. Entorno local en tu PC (Windows) para los scripts de manuales
+Requisitos: [Node.js LTS](https://nodejs.org) y [Git](https://git-scm.com). En PowerShell:
+```powershell
+git clone https://github.com/cabrellesbarberasimon-hue/MIR.git
+cd MIR
 npm install
-vercel env pull .env              # trae DATABASE_URL de Neon
-# añade a .env:
-#   ANTHROPIC_API_KEY=sk-ant-...   (https://console.anthropic.com → API keys)
-#   MANUALES_DIR=~/Desktop/manuales
-#   APP_PASSWORD y SESSION_SECRET  (solo si quieres usar `npm run dev`)
+copy .env.example .env
+notepad .env
 ```
+En `.env`:
+- `DATABASE_URL`: la de Neon (Vercel → *Storage* → tu base → *.env.local* → *Show secret* → copia
+  `DATABASE_URL`). Así los scripts escriben en la misma base que usa la app desplegada.
+- `MANUALES_DIR='C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES'` (ya viene así; las comillas simples
+  son necesarias por los espacios).
+- `ANTHROPIC_API_KEY=sk-ant-...` (https://console.anthropic.com → API keys; requiere añadir saldo).
+- `APP_PASSWORD` y `SESSION_SECRET`: solo si quieres usar `npm run dev` en local.
+
+OneDrive: si los PDF están «solo en línea» (icono de nube), clic derecho en la carpeta MANUALES →
+*Mantener siempre en este dispositivo*, para que los scripts puedan leerlos sin esperas.
 
 ## 6. Análisis de los manuales y carga
-No pude acceder a `~/Desktop/manuales` (está en tu ordenador, no en el entorno de desarrollo).
-```bash
+No pude acceder a la carpeta de manuales (está en tu PC, no en el entorno de desarrollo). En PowerShell, dentro de `MIR`:
+```powershell
 npm run analizar-manuales         # informe en privado/analisis-manuales.md (formatos, capítulos, refs MIR, coste)
 npm run cargar-manuales           # capítulos → temas (crea asignaturas/temas que falten); idempotente
 ```
@@ -51,7 +70,7 @@ Revisa el informe: si los formatos de referencia MIR o la detección de capítul
 
 ## 7. Generación de tarjetas con IA (falta ANTHROPIC_API_KEY)
 El script está terminado y probado con un generador simulado. Pasos:
-```bash
+```powershell
 npm run generar-tarjetas -- --estimar                 # coste estimado de lo pendiente
 # Prueba con UN capítulo (sin guardar) y revisa la calidad:
 npm run generar-tarjetas -- --seccion <id> --seco --muestra   # escribe docs/muestra-tarjetas.md (privado)

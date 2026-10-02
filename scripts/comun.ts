@@ -1,13 +1,25 @@
 // Utilidades compartidas por los scripts locales.
 import "dotenv/config";
+import { existsSync } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import path from "node:path";
 
 /** Carpeta de manuales (SOLO LECTURA: los scripts nunca escriben en ella). */
-export function dirManuales(): string {
-  const d = process.env.MANUALES_DIR || "~/Desktop/manuales";
+// Admite rutas de Windows con espacios (p. ej. C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES),
+// con o sin comillas, y "~" para la carpeta personal.
+export function resolverDir(valor: string | undefined): string {
+  const d = (valor || "~/Desktop/manuales").trim().replace(/^["']|["']$/g, "");
   return path.resolve(d.replace(/^~(?=$|\/|\\)/, homedir()));
+}
+
+export function dirManuales(): string {
+  const dir = resolverDir(process.env.MANUALES_DIR);
+  if (!existsSync(dir)) {
+    console.error(`No encuentro la carpeta de manuales: ${dir}\nRevisa MANUALES_DIR en .env (ver README).`);
+    process.exit(1);
+  }
+  return dir;
 }
 
 export const EXTENSIONES = new Set([".pdf"]);
@@ -20,7 +32,8 @@ export async function listarArchivos(dir = dirManuales()): Promise<{ relativa: s
       if (e.name.startsWith(".")) continue;
       const abs = path.join(d, e.name);
       if (e.isDirectory()) await recorrer(abs);
-      else out.push({ relativa: path.relative(dir, abs), absoluta: abs, bytes: (await stat(abs)).size });
+      // Ruta relativa con "/" en todos los sistemas: identifica al manual en la base de datos.
+      else out.push({ relativa: path.relative(dir, abs).split(path.sep).join("/"), absoluta: abs, bytes: (await stat(abs)).size });
     }
   };
   await recorrer(dir);

@@ -14,7 +14,7 @@ Aplicación web para estudiantes que preparan el MIR. `PRODUCT_SPEC.md` es la fu
   Lo que requiera al usuario (claves, inicios de sesión) va a PENDIENTE.md.
 
 ## Manuales (privados)
-- Carpeta `~/Desktop/manuales` (o `MANUALES_DIR`): SOLO LECTURA. Nunca modificar, mover ni borrar.
+- Carpeta de manuales (`MANUALES_DIR`; en el PC del usuario: `C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES`): SOLO LECTURA. Nunca modificar, mover ni borrar.
 - Nunca copiar manuales al repo ni subir nada derivado de ellos (tarjetas, textos, muestras). `.gitignore` lo cubre
   (`privado/`, `docs/muestra-tarjetas.md`, `*.pdf`).
 - La app desplegada no lee manuales: los scripts locales (`npm run cargar-manuales`, `npm run generar-tarjetas`)

@@ -19,17 +19,18 @@ Comprobaciones: `npm test` (Vitest + Postgres en memoria, no necesita BD), `npm 
 Tras cambiar `src/db/schema.ts`: `npm run db:generate` (crea la migración en `drizzle/`) y `npm run db:migrate`.
 
 ## Desplegar (Vercel + Neon)
-1. Repositorio privado en GitHub e importado en Vercel (`vercel link`).
-2. Base de datos: integración Neon de Vercel (define `DATABASE_URL`).
-3. Variables de entorno en Vercel: `APP_PASSWORD`, `SESSION_SECRET`.
-4. Push a `main` o `vercel --prod`. El build aplica las migraciones automáticamente.
+1. Importar el repositorio en Vercel (*Add New → Project*).
+2. Base de datos: *Storage → Create Database → Neon* (define `DATABASE_URL`).
+3. Variables de entorno: `APP_PASSWORD` (la contraseña de acceso) y `SESSION_SECRET` (cadena aleatoria larga).
+4. Deploy (cada push a `main` vuelve a desplegar). El build aplica las migraciones automáticamente.
+5. Comparte el dominio de producción (`https://<nombre>.vercel.app`) y la contraseña.
 
-Comandos exactos en [PENDIENTE.md](PENDIENTE.md#4-base-de-datos-y-despliegue-en-vercel-no-hay-sesión-de-vercel-en-este-entorno).
+Pasos detallados (también para Windows) en [PENDIENTE.md](PENDIENTE.md).
 
 ## Manuales y tarjetas (scripts locales)
-La app desplegada no lee los manuales. Los scripts se ejecutan en tu ordenador y escriben en la misma base de
-datos (`DATABASE_URL` en `.env`). La carpeta de manuales (`MANUALES_DIR`, por defecto `~/Desktop/manuales`) solo
-se lee; nada derivado de ella se sube a git.
+La app desplegada no lee los manuales. Los scripts se ejecutan en tu ordenador (Windows, macOS o Linux) y escriben
+en la misma base de datos (`DATABASE_URL` en `.env`). La carpeta de manuales (`MANUALES_DIR`, p. ej.
+`MANUALES_DIR='C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES'`) solo se lee; nada derivado de ella se sube a git.
 
 ```bash
 npm run analizar-manuales                          # informe en privado/analisis-manuales.md
