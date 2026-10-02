@@ -2,20 +2,21 @@
 
 Todo lo demás está hecho, probado y subido a `main`.
 
-## 1. 🔴 Bloqueante ahora mismo: pega la DATABASE_URL en .env
-Estoy trabajando en local (esta sesión, en tu PC) siguiendo docs/TRASPASO.md. Ya cloné el repo, hice
-`npm install`, creé `.env` desde `.env.example` y analicé tus manuales reales (`npm run analizar-manuales`).
-Para seguir (cargar capítulos → temas y escribir tarjetas) necesito que pegues en `.env` la cadena de Neon:
-Vercel → `mir-estudio` → *Storage* → tu base → *Open in Neon* → *Connect* → copia la cadena (`postgresql://…`)
-→ pégala en la línea `DATABASE_URL=` de `C:\Users\Simo\OneDrive - BoCubi\Escritorio\MIR\.env`.
-(`APP_PASSWORD` y `SESSION_SECRET` de ese `.env` los generé yo para uso local; no son los de producción.)
+## 1. ✅ Base de datos conectada — falta enlazar mir-project con GitHub
+`DATABASE_URL` ya está en `.env` (Neon nuevo, dedicado a `mir-project`, nada compartido con otros proyectos
+tuyos) y ya cargué el temario (22 manuales → asignaturas/temas/capítulos) ahí.
 
-**Intenté obtenerla yo con la cuenta de Vercel conectada** (me diste permiso para `vercel login` / `env pull`):
-esa cuenta (`simon@bocubimobiliario.com`, vía el conector de Vercel, sin `vercel login` de terminal) tiene 10
-proyectos y **ninguno es `mir-estudio`** (sí hay un `mir-project`, creado hace poco, deploy en ERROR, dominio
-`mir-project-rust.vercel.app` — no tiene relación con `mir-estudio.vercel.app`, que sigue vivo y sirve la app
-real). No lo he tocado por si es algo tuyo de otra prueba. El proyecto real debe de estar en otra cuenta/equipo
-de Vercel (quizá entraste con GitHub en vez de con el email la vez que lo creaste). Más fácil que lo pegues tú.
+**`mir-estudio.vercel.app` (la app real y en vivo) y `mir-project` (donde estoy trabajando) son proyectos de
+Vercel distintos** — el primero no está en la cuenta a la que tengo acceso; el segundo es nuevo, sin repo de
+GitHub conectado todavía (por eso su build está en ERROR). Decidiste que `mir-project` pase a ser la app real.
+No puedo enlazar el repo de GitHub a un proyecto de Vercel ya existente con las herramientas que tengo (solo
+puedo crear proyectos nuevos desde un repo, no conectar uno después) — hace falta este paso tuyo, 1 minuto:
+- Vercel → `mir-project` → **Settings → Git → Connect Git Repository** → elige `cabrellesbarberasimon-hue/MIR`,
+  rama `main`.
+- Después revisa las variables de entorno del proyecto (`APP_PASSWORD`, `SESSION_SECRET`) en *Settings →
+  Environment Variables* — probablemente no existan todavía en `mir-project` (estaban en el proyecto antiguo).
+- El dominio será algo tipo `mir-project-*.vercel.app`; si quieres seguir usando `mir-estudio.vercel.app`,
+  añádelo luego en *Settings → Domains* (puede que primero tengas que liberarlo del proyecto antiguo).
 
 ## 2. Decide qué hacer con LIBRO GORDO.pdf y LG IMAGENES.pdf
 Por defecto los dejo fuera de la carga (ver docs/analisis-manuales.md):
@@ -39,8 +40,7 @@ secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo di
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
 ## Ya hecho (contexto, no requiere acción)
-- Código en `main`: desplegado en **https://mir-estudio.vercel.app** (proyecto `mir-estudio`, región
-  Frankfurt); cada push a `main` redespliega y aplica migraciones. Acceso con `APP_PASSWORD` (configúrala en
-  Vercel → Settings → Environment Variables si quieres cambiarla).
+- Código en `main`. Despliegue: en transición de `mir-estudio.vercel.app` (app antigua, cuenta de Vercel que
+  no controlo) a `mir-project` (ver punto 1) — hasta que conectes el repo, `mir-project` no se actualiza solo.
 - Generación de tarjetas: vamos por la vía **sin API** (`npm run tarjetas-sin-api`, redactadas por mí,
   validadas igual que las de la API — cita literal obligatoria). No hace falta `ANTHROPIC_API_KEY`.
