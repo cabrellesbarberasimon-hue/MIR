@@ -27,6 +27,9 @@ describe("estructura de manuales", () => {
     expect(nombreDesdeArchivo("03 - Cardiología (AMIR 2025).pdf")).toBe("Cardiología");
     expect(nombreDesdeArchivo("manuales/CTO_Neumologia_y_Cirugia_Toracica.pdf")).toBe("CTO Neumologia y Cirugia Toracica".replace("CTO ", ""));
     expect(nombreDesdeArchivo("Digestivo.pdf")).toBe("Digestivo");
+    // Manuales AMIR 19ª ed. con código pegado al nombre (sin separadores): se reconoce por el código, no por limpieza genérica.
+    expect(nombreDesdeArchivo("MnCDMIR19aED_v3.pdf")).toBe("Cardiología y Cirugía Cardiovascular");
+    expect(nombreDesdeArchivo("MnNRMIR19aED_v3.pdf")).toBe("Neurología y Neurocirugía");
   });
 
   it("capítulos por encabezados 'Tema N' (ignora el índice)", () => {

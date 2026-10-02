@@ -13,9 +13,36 @@ export function calidadTexto(paginas: string[]): "texto" | "mixto" | "escaneado"
   return conTexto >= 0.8 ? "texto" : conTexto >= 0.2 ? "mixto" : "escaneado";
 }
 
+// Manuales AMIR 19ª edición nombrados "Mn<código>MIR19aED_v3.pdf" (p. ej. "MnCDMIR19aED_v3.pdf"): el nombre
+// va pegado sin separadores y la limpieza genérica no lo reconoce. Comprobado contra el índice real de cada PDF.
+const CODIGOS_AMIR: Record<string, string> = {
+  cd: "Cardiología y Cirugía Cardiovascular",
+  dg: "Digestivo y Cirugía General",
+  dm: "Dermatología",
+  ed: "Endocrinología, Metabolismo y Nutrición",
+  et: "Estadística y Epidemiología",
+  gc: "Ginecología y Obstetricia",
+  hm: "Hematología",
+  if: "Infecciosas y Microbiología",
+  im: "Inmunología",
+  mc: "Miscelánea",
+  nf: "Nefrología",
+  nm: "Neumología",
+  nr: "Neurología y Neurocirugía",
+  of: "Oftalmología",
+  or: "Otorrinolaringología",
+  pd: "Pediatría",
+  pq: "Psiquiatría",
+  rm: "Reumatología",
+  tm: "Traumatología y Cirugía Ortopédica",
+  ur: "Urología",
+};
+
 /** Nombre de asignatura a partir del nombre de archivo: "03 - Cardiología (AMIR 2025).pdf" → "Cardiología". */
 export function nombreDesdeArchivo(archivo: string): string {
   const base = archivo.split(/[\\/]/).pop()!.replace(/\.[^.]+$/, "");
+  const amir = base.match(/^mn([a-z]{2})mir\d/i);
+  if (amir && CODIGOS_AMIR[amir[1].toLowerCase()]) return CODIGOS_AMIR[amir[1].toLowerCase()];
   const limpio = base
     .replace(/[_]+/g, " ")
     .replace(/\(.*?\)|\[.*?\]/g, " ")

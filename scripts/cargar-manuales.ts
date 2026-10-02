@@ -1,6 +1,6 @@
 // Carga los manuales en la base de datos: detecta capítulos, los asocia a temas
 // (creando asignaturas/temas si faltan) y calcula referencias MIR y prioridad.
-// Uso: npm run cargar-manuales [-- --forzar] [-- --solo "Cardio"]
+// Uso: npm run cargar-manuales [-- --forzar] [-- --solo "Cardio"] [-- --excluir "Libro Gordo"]
 // Es idempotente: los manuales sin cambios se saltan.
 import path from "node:path";
 import { arg, dirManuales, esExamen, listarArchivos } from "./comun";
@@ -9,9 +9,11 @@ import { cargarManual } from "@/lib/manuales/procesar";
 
 const forzar = arg("forzar") === "true";
 const solo = arg("solo")?.toLowerCase();
+const excluir = arg("excluir")?.toLowerCase();
 const archivos = (await listarArchivos(dirManuales()))
   .filter((a) => path.extname(a.relativa).toLowerCase() === ".pdf")
-  .filter((a) => !solo || a.relativa.toLowerCase().includes(solo));
+  .filter((a) => !solo || a.relativa.toLowerCase().includes(solo))
+  .filter((a) => !excluir || !a.relativa.toLowerCase().includes(excluir));
 const examenes = archivos.filter((a) => esExamen(a.relativa));
 if (examenes.length) console.log(`Se omiten ${examenes.length} PDF que parecen exámenes/simulacros: ${examenes.map((a) => a.relativa).join(", ")}`);
 archivos.splice(0, archivos.length, ...archivos.filter((a) => !esExamen(a.relativa)));

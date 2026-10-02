@@ -1,6 +1,18 @@
 # Pendiente (requiere tu intervención)
 
-Todo lo demás está hecho, probado y subido a la rama `claude/nice-cerf-5ybw3q`.
+Todo lo demás está hecho, probado y subido a `main`.
+
+## 0. Traspaso en local: en marcha
+- `.env` creado a partir de `.env.example` en tu PC; falta que pegues `DATABASE_URL` (cadena de Neon) ahí
+  para poder cargar manuales/tarjetas en la base de datos real. `APP_PASSWORD` y `SESSION_SECRET` los generé
+  yo para uso local (no son los de producción en Vercel).
+- `npm run analizar-manuales` ya corrido contra tus manuales reales (informe en `privado/analisis-manuales.md`,
+  conclusiones sin contenido privado en `docs/analisis-manuales.md`).
+- **`LIBRO GORDO.pdf` y `LG IMAGENES.pdf` quedan excluidos de la carga inicial** (ver docs/analisis-manuales.md
+  para el motivo). Si quieres que el contenido de Libro Gordo (preguntas MIR 2016-2025 comentadas) alimente
+  tarjetas de todas formas, dímelo y vemos cómo encajarlo sin crear una asignatura ficticia que mezcle
+  especialidades (p. ej. asociando sus capítulos a los temas ya existentes en vez de a una asignatura nueva).
+  LG Imágenes necesitaría OCR antes de ser útil.
 
 ## 1. ⚠️ Hacer privado el repositorio de GitHub (urgente)
 El repositorio `cabrellesbarberasimon-hue/MIR` **es público** y desde este entorno no puedo cambiar su
