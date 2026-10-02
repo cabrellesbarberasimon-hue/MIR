@@ -15,15 +15,14 @@ next-env.d.ts
 *.key
 
 # Manuales y cualquier dato derivado de ellos (privados del usuario)
-manuales/
-**/manuales/
+/manuales/
 *.pdf
 *.PDF
 *.epub
 *.docx
-privado/
-datos/
-cache-manuales/
+/privado/
+/datos/
+/cache-manuales/
 docs/muestra-tarjetas.md
 *.dump
 *.sql.gz
