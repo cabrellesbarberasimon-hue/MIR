@@ -2,82 +2,38 @@
 
 Todo lo demás está hecho, probado y subido a `main`.
 
-## 0. Traspaso en local: en marcha
-- `.env` creado a partir de `.env.example` en tu PC; falta que pegues `DATABASE_URL` (cadena de Neon) ahí
-  para poder cargar manuales/tarjetas en la base de datos real. `APP_PASSWORD` y `SESSION_SECRET` los generé
-  yo para uso local (no son los de producción en Vercel).
-- `npm run analizar-manuales` ya corrido contra tus manuales reales (informe en `privado/analisis-manuales.md`,
-  conclusiones sin contenido privado en `docs/analisis-manuales.md`).
-- **`LIBRO GORDO.pdf` y `LG IMAGENES.pdf` quedan excluidos de la carga inicial** (ver docs/analisis-manuales.md
-  para el motivo). Si quieres que el contenido de Libro Gordo (preguntas MIR 2016-2025 comentadas) alimente
-  tarjetas de todas formas, dímelo y vemos cómo encajarlo sin crear una asignatura ficticia que mezcle
-  especialidades (p. ej. asociando sus capítulos a los temas ya existentes en vez de a una asignatura nueva).
-  LG Imágenes necesitaría OCR antes de ser útil.
+## 1. 🔴 Bloqueante ahora mismo: pega la DATABASE_URL en .env
+Estoy trabajando en local (esta sesión, en tu PC) siguiendo docs/TRASPASO.md. Ya cloné el repo, hice
+`npm install`, creé `.env` desde `.env.example` y analicé tus manuales reales (`npm run analizar-manuales`).
+Para seguir (cargar capítulos → temas y escribir tarjetas) necesito que pegues en `.env` la cadena de Neon:
+Vercel → `mir-estudio` → *Storage* → tu base → *Open in Neon* → *Connect* → copia la cadena (`postgresql://…`)
+→ pégala en la línea `DATABASE_URL=` de `C:\Users\Simo\OneDrive - BoCubi\Escritorio\MIR\.env`.
+(`APP_PASSWORD` y `SESSION_SECRET` de ese `.env` los generé yo para uso local; no son los de producción.)
 
-## 1. ⚠️ Hacer privado el repositorio de GitHub (urgente)
-El repositorio `cabrellesbarberasimon-hue/MIR` **es público** y desde este entorno no puedo cambiar su
-visibilidad (sin sesión de `gh`). No contiene manuales, datos derivados ni claves (el `.gitignore` los
-excluye), pero debe ser privado:
+## 2. Decide qué hacer con LIBRO GORDO.pdf y LG IMAGENES.pdf
+Por defecto los dejo fuera de la carga (ver docs/analisis-manuales.md):
+- **LIBRO GORDO.pdf**: no es un manual por especialidad, es un recopilatorio de preguntas de examen 2016-2025
+  comentadas; cargarlo tal cual crearía una asignatura ficticia "Libro gordo" con 245 capítulos mezclando todas
+  las especialidades. Si quieres aprovechar su contenido, dime cómo lo prefieres (p. ej. asociar sus capítulos
+  a los temas de especialidad ya existentes en vez de a una asignatura nueva) y lo ajusto.
+- **LG IMAGENES.pdf**: está escaneado (sin texto extraíble), no generaría ninguna tarjeta. Necesitaría OCR
+  antes de ser útil; dime si quieres que lo intente o si lo dejamos fuera sin más.
+
+## 3. ⚠️ Hacer privado el repositorio de GitHub (urgente, pendiente de antes)
+El repositorio `cabrellesbarberasimon-hue/MIR` **es público** y no puedo cambiar su visibilidad sin sesión de
+`gh` autenticada como tú. No contiene manuales, datos derivados ni claves (el `.gitignore` los excluye), pero
+debe ser privado:
 - Web: GitHub → repo → Settings → General → Danger Zone → *Change visibility* → Private.
 - O bien: `gh repo edit cabrellesbarberasimon-hue/MIR --visibility private --accept-visibility-change-consequences`
 
-## 2. PRODUCT_SPEC.md
-No estaba en el repositorio ni en el entorno. La app se ha construido a partir de tu prompt (que resume las
-secciones 13, 14, 14.5 y 15). Súbelo al repo y revisa si algo difiere de DECISIONS.md (motivos de error,
-intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
+## 4. PRODUCT_SPEC.md (pendiente de antes)
+No está en el repositorio ni en este PC. La app se construyó a partir de tu prompt original (que resume las
+secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo difiere de DECISIONS.md (motivos
+de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
-## 3. ✅ Código en `main`
-Hecho: `main` contiene la app (Vercel despliega esa rama en producción).
-
-## 4. ✅ Desplegado en Vercel
-- URL de producción: **https://mir-estudio.vercel.app** (proyecto `mir-estudio`, región Frankfurt).
-- Base de datos Neon conectada; las tablas se crean en cada build. GitHub conectado: cada push a `main` redespliega.
-- Acceso: contraseña `APP_PASSWORD` (se dio en el chat; cámbiala en *Settings → Environment Variables* y redespliega).
-- La protección de Vercel solo afecta a las *Preview*; el dominio de producción es accesible con la contraseña de la app.
-
-## 5-6. Cargar los manuales desde tu PC (doble clic)
-No se puede hacer desde la nube: los manuales están en tu PC
-(`C:\Users\Simo\OneDrive - BoCubi\Escritorio\MANUALES`) y son privados.
-1. Instala [Node.js LTS](https://nodejs.org) (siguiente, siguiente…).
-2. Descarga el código: GitHub → repo `MIR` → botón verde *Code* → *Download ZIP* → descomprímelo (p. ej. en Documentos).
-3. Ten a mano la cadena de conexión de Neon: Vercel → `mir-estudio` → *Storage* → tu base → *Open in Neon* →
-   *Connect* → copia la cadena (`postgresql://…`).
-4. Doble clic en **`MANUALES.bat`**. La primera vez pide la cadena de Neon, la carpeta de manuales (Enter = la tuya)
-   y la clave de Anthropic (Enter para saltarla). Analiza los manuales, carga capítulos → temas en la app y, si hay
-   clave, estima el coste y pregunta antes de generar tarjetas. Se puede volver a abrir: continúa donde lo dejó.
-Los PDF cuyo nombre parece de examen/simulacro/plantilla se omiten (la app no tiene banco de preguntas).
-Revisa luego en la app *Más → Manuales* las asociaciones capítulo → tema.
-OneDrive: si los PDF están «solo en línea», clic derecho en MANUALES → *Mantener siempre en este dispositivo*.
-
-## 6b. Alternativa: que Claude procese los manuales en la nube
-1. Crea en GitHub un repositorio **privado** nuevo (p. ej. `MIR-manuales`) y sube los PDF con GitHub Desktop
-   (la web solo admite archivos de hasta 25 MB; Desktop hasta 100 MB por archivo).
-2. En la configuración del entorno de Claude (menú del entorno → *Edit*):
-   - *Network access*: permite `*.neon.tech` (para escribir en la base de datos de la app).
-   - Variables de entorno: `DATABASE_URL` (cadena de Neon) y, si quieres generación por API, `ANTHROPIC_API_KEY`.
-3. Abre una sesión nueva y pide «procesa los manuales del repo MIR-manuales». Los PDF nunca se copian al repo de la app.
-
-## 7. Generación de tarjetas con IA (falta ANTHROPIC_API_KEY)
-El script está terminado y probado con un generador simulado. Pasos:
-```powershell
-npm run generar-tarjetas -- --estimar                 # coste estimado de lo pendiente
-# Prueba con UN capítulo (sin guardar) y revisa la calidad:
-npm run generar-tarjetas -- --seccion <id> --seco --muestra   # escribe docs/muestra-tarjetas.md (privado)
-# Si hay que ajustar, edita PROMPT_SISTEMA en src/lib/manuales/generador.ts (sube VERSION_PROMPT) y repite.
-npm run generar-tarjetas                              # procesa lo pendiente (reanudable; Ctrl+C es seguro)
-```
-El id de un capítulo se ve en la base de datos (`select id, titulo from secciones`) o probando con
-`--manual "cardio" --limite 1 --seco`. La revisión de calidad del capítulo de prueba según la sección 14.5 (un
-concepto por tarjeta, respuestas concisas, sin redundancias, contexto suficiente, solo del fragmento) no se ha
-podido hacer con IA real; la parte "solo del fragmento" la garantiza además el código (cita literal verificada).
-
-## 8. Estimación de coste (aproximada, sin haber visto los manuales)
-Precios de `claude-opus-5-5`: 4 $/M tokens de entrada y 20 $/M de salida (≈ 0,86 €/$).
-Supuesto: ~30 manuales, ~7.000 páginas, ~4.500 caracteres útiles por página ≈ 31 M caracteres
-≈ 9 M tokens de entrada (+ 2 M de instrucciones) y ~4 M de salida (tarjetas + razonamiento):
-**≈ 44 $ + 81 $ ≈ 125 $ ≈ 105 € (rango probable 60–130 €)**. El script calcula la cifra real con `--estimar`.
-Como supera 20 €, **por defecto el script solo genera las tarjetas de los temas que tengan planificación**;
-el resto queda pendiente para lanzarlo con `npm run generar-tarjetas -- --todo` cuando quieras.
-Opciones para abaratar (decisión tuya): `--esfuerzo low` (menos razonamiento, menos tokens de salida) o
-cambiar `MODELO` en `src/lib/manuales/coste.ts` a `claude-sonnet-5-5` (2 $/10 $ por M, ≈ la mitad;
-actualiza también los precios en ese archivo).
+## Ya hecho (contexto, no requiere acción)
+- Código en `main`: desplegado en **https://mir-estudio.vercel.app** (proyecto `mir-estudio`, región
+  Frankfurt); cada push a `main` redespliega y aplica migraciones. Acceso con `APP_PASSWORD` (configúrala en
+  Vercel → Settings → Environment Variables si quieres cambiarla).
+- Generación de tarjetas: vamos por la vía **sin API** (`npm run tarjetas-sin-api`, redactadas por mí,
+  validadas igual que las de la API — cita literal obligatoria). No hace falta `ANTHROPIC_API_KEY`.
