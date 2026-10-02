@@ -14,12 +14,14 @@ No estaba en el repositorio ni en el entorno. La app se ha construido a partir d
 secciones 13, 14, 14.5 y 15). Súbelo al repo y revisa si algo difiere de DECISIONS.md (motivos de error,
 intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
-## 3. Llevar el código a `main`
-Vercel publica en producción la rama `main`, y el código está en `claude/nice-cerf-5ybw3q`.
-En GitHub: repo → aviso amarillo «claude/nice-cerf-5ybw3q had recent pushes» → *Compare & pull request* →
-*Create pull request* → *Merge pull request*.
+## 3. ✅ Código en `main`
+Hecho: `main` contiene la app (Vercel despliega esa rama en producción).
 
-## 4. Desplegar en Vercel desde el navegador (desde aquí no tengo acceso a tu cuenta de Vercel)
+## 4. Desplegar en Vercel desde el navegador
+Desde el entorno de desarrollo no se puede: la red bloquea `api.vercel.com` y `console.neon.tech`, y el conector
+de Vercel de claude.ai no está conectado. Para que Claude lo haga en otra sesión: conecta Vercel en
+https://claude.ai/customize/connectors y añade `api.vercel.com` y `console.neon.tech` a los dominios permitidos del
+entorno (menú del entorno → Edit → Network access); después abre una sesión nueva. O hazlo a mano:
 1. Entra en https://vercel.com con tu cuenta de GitHub → *Add New… → Project* → *Import* `cabrellesbarberasimon-hue/MIR`.
    No cambies la configuración (Vercel detecta Next.js). Despliega *Environment Variables* y añade:
    - `APP_PASSWORD` = la contraseña que darás a la persona que va a usar la app.
