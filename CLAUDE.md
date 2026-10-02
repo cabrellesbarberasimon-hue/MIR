@@ -1,7 +1,7 @@
 # CLAUDE.md — App MIR
 
 Aplicación web para estudiantes que preparan el MIR. `PRODUCT_SPEC.md` es la fuente de verdad del producto
-(ver PENDIENTE.md: no estaba disponible en el entorno de desarrollo inicial).
+(ver PENDIENTE.md: no estaba disponible en el entorno de desarrollo inicial). Léelo entero antes de cambiar funcionalidad.
 
 ## Principios (no negociables)
 - Simplicidad y mantenibilidad. No añadir funciones que no estén en la spec.
@@ -34,12 +34,21 @@ Aplicación web para estudiantes que preparan el MIR. `PRODUCT_SPEC.md` es la fu
 - Auth: contraseña única (`APP_PASSWORD`) + cookie firmada (`SESSION_SECRET`), `src/proxy.ts`.
 - Lógica de dominio en `src/lib/` (funciones puras o que reciben datos de `getDb()`); tests en `tests/` con Vitest
   y PGlite (Postgres en memoria, sin servidor).
-- Scripts locales en `scripts/`.
+- Scripts locales en `scripts/` (lógica en `src/lib/manuales/`: pdf, estructura, fragmentos, generador, procesar, coste).
+- Pantallas en `src/app/` (server components + server actions en `src/app/acciones.ts`); todas mobile-first.
+- `.gitignore`: las reglas de datos privados van ancladas a la raíz (`/privado/`…) para no ocultar código
+  como `src/lib/datos` o `src/lib/manuales`.
 
 ## Comandos
 - `npm run dev` · `npm test` · `npm run lint` (tsc) · `npm run build`
 - `npm run db:generate` (tras cambiar el schema) · `npm run db:migrate`
 - `npm run analizar-manuales` · `npm run cargar-manuales` · `npm run generar-tarjetas`
+
+## Generación de tarjetas
+- Prompt en `src/lib/manuales/generador.ts` (`PROMPT_SISTEMA`, `VERSION_PROMPT`). Reglas 14.5: un concepto por tarjeta,
+  respuesta concisa, sin redundancias, contexto suficiente, solo del fragmento.
+- `validar()` descarta toda tarjeta cuya `cita` no esté literalmente en el fragmento; la cita es el fragmento guardado.
+- Si la estimación supera 20 €, solo temas con planificación salvo `--todo`.
 
 ## Forma de trabajar
 Commits pequeños y frecuentes. Comprobar cada parte (tests + prueba manual) antes de seguir.
