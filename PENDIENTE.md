@@ -39,18 +39,19 @@ No está en el repositorio ni en este PC. La app se construyó a partir de tu pr
 secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo difiere de DECISIONS.md (motivos
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
-## 5. Progreso de las tarjetas (informativo, sigo trabajando solo)
-A fecha de hoy: **86/349 capítulos, 3.981 tarjetas** (vía sin API, validadas con cita literal obligatoria;
-no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su tamaño desproporcionado
-— ver nota más abajo). La sesión ha ido en paralelo con varios subagentes a la vez (mucho más rápido: varios
-cientos de tarjetas en pocos minutos cuando funciona), pero de forma intermitente la herramienta deja de
-admitir subagentes nuevos ("Fork is not available inside a forked worker" — límite de la plataforma, no un
-fallo mío) y toca seguir capítulo a capítulo yo solo hasta que se libera otra vez. También hubo tres cortes
-por el límite de uso mensual de la cuenta (se resuelven solos pasado un tiempo). **Si quieres acelerarlo,
-puedes abrir una sesión nueva de Claude Code en este mismo proyecto y pedirle "sigue con las tarjetas del MIR,
-en paralelo, lee PENDIENTE.md y DECISIONS.md primero"** — es probable que el modo paralelo esté disponible de
-nuevo ahí. Puedes revisar el avance en la app (Más → Manuales) o preguntándome directamente; quedan ~266
-capítulos.
+## 5. Progreso de las tarjetas (informativo)
+A fecha de hoy (sesión de más de 24h): **103/345 capítulos, 4.451 tarjetas** (vía sin API, validadas con cita
+literal obligatoria; no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su
+tamaño desproporcionado — ver nota más abajo). Quedan ~242 capítulos.
+
+La sesión ha ido muy en paralelo con varios subagentes a la vez cuando la herramienta lo permitía (mucho más
+rápido: varios cientos de tarjetas en minutos), y capítulo a capítulo yo solo cuando no ("Fork is not available
+inside a forked worker" — límite de la plataforma, no un fallo mío). También hubo varios cortes por el límite
+de uso mensual de la cuenta (se resuelven solos pasado un tiempo). **Si quieres acelerarlo, abre una sesión
+nueva de Claude Code en este proyecto y pide "sigue con las tarjetas del MIR, en paralelo, lee PENDIENTE.md y
+DECISIONS.md primero"** — es probable que el modo paralelo esté disponible de nuevo ahí.
+
+Puedes revisar el avance en la app (Más → Manuales) o preguntándome directamente.
 
 Pendiente de decidir: la sección 567 ("Actualizaciones MIR", el único capítulo de ese manual, 113 páginas
 y 278 fragmentos — mucho más grande que cualquier otro) la dejé fuera de la cola automática por su tamaño;
