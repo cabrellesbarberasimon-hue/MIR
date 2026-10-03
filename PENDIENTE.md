@@ -40,7 +40,7 @@ secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo di
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
 ## 5. Progreso de las tarjetas (informativo, sigo trabajando solo)
-A fecha de hoy: **80/349 capítulos, 3.610 tarjetas** (vía sin API, validadas con cita literal obligatoria;
+A fecha de hoy: **82/349 capítulos, 3.706 tarjetas** (vía sin API, validadas con cita literal obligatoria;
 no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su tamaño desproporcionado
 — ver nota más abajo). Empecé en paralelo con varios subagentes a la vez (mucho más rápido: varios cientos de
 tarjetas en pocos minutos), pero en un momento dado esta sesión quedó fijada como "forked worker" y ya no
@@ -50,7 +50,7 @@ solo, más lento pero constante. **Si abres una sesión nueva de Claude Code en 
 probable es que el modo paralelo vuelva a estar disponible** (es como empezó esta sesión) y avanzaría mucho
 más rápido que seguir en esta — puedes decirle a la sesión nueva "sigue con las tarjetas del MIR, en paralelo"
 y que lea este archivo y DECISIONS.md para el contexto. Puedes revisar el avance en la app (Más → Manuales)
-o preguntándome directamente; quedan ~265 capítulos.
+o preguntándome directamente; quedan ~267 capítulos.
 
 Pendiente de decidir: la sección 567 ("Actualizaciones MIR", el único capítulo de ese manual, 113 páginas
 y 278 fragmentos — mucho más grande que cualquier otro) la dejé fuera de la cola automática por su tamaño;
