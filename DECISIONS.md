@@ -82,3 +82,4 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Buscador global sin tildes (temas y sus notas, conceptos, notas de errores, tarjetas) con `translate/lower` en SQL: sin índices extra, suficiente para un usuario.
 - La URL de la base admite también `MIR_DATABASE_URL`/`MIR_DATABASE_URL_UNPOOLED` (la integración de Neon de `mir-project` creó las variables con prefijo); `DATABASE_URL` sigue teniendo prioridad.
 - Sesión de tarjetas por tema (botón en la ficha del tema, `/tarjetas?tema=<id>`): solo tarjetas de ese tema, sin cupo diario ni requisito de planificación, porque el usuario la elige explícitamente al estudiar ese tema. La sesión diaria no cambia.
+- Diseño adaptable en vez de un "modo PC": a partir de 1024 px la barra inferior pasa a menú lateral con todas las secciones, el contenido se ensancha, Hoy y Plan usan dos columnas (el calendario muestra los temas de cada día). En el móvil no cambia nada.

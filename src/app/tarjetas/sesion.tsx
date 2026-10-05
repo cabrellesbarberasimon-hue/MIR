@@ -75,7 +75,7 @@ export function Sesion({ inicial, preguntarMotivo, limite, temaId }: { inicial: 
   }
 
   return (
-    <div className={`flex min-h-[70vh] flex-col gap-3 ${pendiente ? "opacity-70" : ""}`}>
+    <div className={`mx-auto flex min-h-[70vh] w-full max-w-2xl flex-col gap-3 ${pendiente ? "opacity-70" : ""}`}>
       <div className="flex items-center justify-between text-xs text-suave">
         <span className="truncate">{t.asignatura} · {t.tema}</span>
         <span>{limite != null ? `${hechas}/${limite}` : `${hechas} hechas`}{t.state === 0 ? " · nueva" : ""}</span>

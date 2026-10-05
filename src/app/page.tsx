@@ -30,7 +30,8 @@ export default async function Hoy() {
         </div>
       </header>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[1fr_22rem] lg:items-start">
+      <div className="grid grid-cols-2 gap-3 lg:col-start-2 lg:row-start-1">
         <Link href="/tarjetas" className="caja flex flex-col">
           <span className="text-3xl font-semibold">{tarjetas.total}</span>
           <span className="sub">tarjetas{tarjetas.nuevas ? ` · ${tarjetas.nuevas} nuevas` : ""}</span>
@@ -41,12 +42,12 @@ export default async function Hoy() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 lg:col-start-2 lg:row-start-2">
         <Link href="/diez-minutos" className="btn-primario">10 minutos</Link>
         <Link href="/temporizador" className="btn-sec">Temporizador</Link>
       </div>
 
-      <section className="caja">
+      <section className="caja lg:col-start-1 lg:row-span-3 lg:row-start-1">
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="titulo">Plan de hoy</h2>
           <Link href={`/calendario?dia=${dia}`} className="sub underline">Editar</Link>
@@ -56,7 +57,7 @@ export default async function Hoy() {
         )}
       </section>
 
-      <section className="caja flex flex-col gap-3">
+      <section className="caja flex flex-col gap-3 lg:col-start-2 lg:row-start-3">
         <div className="grid grid-cols-4 gap-1 text-center">
           <div>
             <p className="text-xl font-semibold">{pregHoy.preguntas}{est.objetivo ? <span className="sub">/{est.objetivo}</span> : null}</p>
@@ -82,10 +83,11 @@ export default async function Hoy() {
         )}
       </section>
 
-      <Link href={`/registrar`} className="btn-sec w-full">Registrar preguntas o errores</Link>
-      <p className="sub text-center">
+      <Link href={`/registrar`} className="btn-sec w-full lg:col-start-1 lg:row-start-4">Registrar preguntas o errores</Link>
+      <p className="sub text-center lg:col-start-1 lg:row-start-5">
         <Link className="underline" href={`/calendario?dia=${sumarDias(dia, 1)}`}>Ver mañana</Link>
       </p>
+      </div>
     </div>
   );
 }

@@ -17,7 +17,8 @@ export default async function Calendario({ searchParams }: { searchParams: Promi
   const delDia = plan.filter((p) => p.fecha === d);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-6">
+      <div className="flex flex-col gap-4">
       <header className="flex items-center justify-between">
         <Link className="btn-sec px-3" href={`/calendario?mes=${mesSiguiente(mes, -1)}&dia=${d}`}>‹</Link>
         <h1 className="titulo first-letter:uppercase">{formatoMes(mes)}</h1>
@@ -32,22 +33,29 @@ export default async function Calendario({ searchParams }: { searchParams: Promi
           const fuera = c.slice(0, 7) !== mes;
           return (
             <Link key={c} href={`/calendario?mes=${mes}&dia=${c}`}
-              className={`flex aspect-square flex-col items-center justify-center rounded-lg border ${c === d ? "border-acento" : "border-transparent"} ${fuera ? "opacity-40" : ""} ${c === hoyStr ? "font-bold text-acento" : ""}`}>
+              className={`flex aspect-square flex-col items-center justify-center rounded-lg border lg:aspect-auto lg:h-24 lg:items-stretch lg:justify-start lg:gap-0.5 lg:overflow-hidden lg:bg-superficie lg:p-1.5 lg:text-left ${c === d ? "border-acento" : "border-transparent lg:border-borde"} ${fuera ? "opacity-40" : ""} ${c === hoyStr ? "font-bold text-acento" : ""}`}>
               <span>{Number(c.slice(8))}</span>
               {items.length > 0 && (
-                <span className={`mt-0.5 rounded-full px-1.5 text-[10px] ${hechos === items.length ? "bg-acento text-white" : "bg-borde"}`}>{items.length}</span>
+                <span className={`mt-0.5 rounded-full px-1.5 text-[10px] lg:hidden ${hechos === items.length ? "bg-acento text-white" : "bg-borde"}`}>{items.length}</span>
               )}
+              {items.slice(0, 3).map((p) => (
+                <span key={p.id} className={`hidden truncate text-[11px] font-normal text-texto lg:block ${p.completado ? "text-suave line-through" : ""}`}>{p.tema}</span>
+              ))}
+              {items.length > 3 && <span className="hidden text-[11px] font-normal text-suave lg:block">+{items.length - 3}</span>}
             </Link>
           );
         })}
       </div>
+      </div>
 
+      <div className="flex flex-col gap-4 lg:sticky lg:top-8">
       <section className="caja">
         <h2 className="titulo mb-2 first-letter:uppercase">{formatoLargo(d)}</h2>
         {delDia.length ? <PlanDia entradas={delDia} editable /> : <p className="sub">Sin temas planificados.</p>}
       </section>
 
       <AnadirPlan fecha={d} temario={temario} />
+      </div>
     </div>
   );
 }
