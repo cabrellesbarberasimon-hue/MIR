@@ -164,9 +164,11 @@ export async function accRepasosHechos(ids: number[]) {
 }
 
 // ───── Tarjetas ─────
-export async function accSiguienteTarjeta(excluir: number[] = []) {
+export async function accSiguienteTarjeta(excluir: number[] = [], temaId?: number) {
   await sesion();
-  const t = await tj.siguienteTarjeta(new Date(), z.array(id).parse(excluir));
+  const t = temaId != null
+    ? await tj.siguienteTarjetaDeTema(id.parse(temaId))
+    : await tj.siguienteTarjeta(new Date(), z.array(id).parse(excluir));
   if (!t) return null;
   return { ...t, notas: await tj.notasDeTarjeta(t.id) };
 }

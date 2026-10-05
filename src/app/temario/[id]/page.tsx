@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { obtenerTema } from "@/lib/datos/temario";
 import { erroresRecientes } from "@/lib/datos/registro";
-import { tarjetasDeTema } from "@/lib/datos/tarjetas";
+import { tarjetasDeTema, pendientesDeTema } from "@/lib/datos/tarjetas";
 import { getDb } from "@/db";
 import { bloquesPreguntas } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
@@ -16,9 +16,10 @@ export default async function Tema({ params }: { params: Promise<{ id: string }>
   const id = Number((await params).id);
   const tema = Number.isInteger(id) ? await obtenerTema(id) : null;
   if (!tema) notFound();
-  const [errores, tarjetas, [rend]] = await Promise.all([
+  const [errores, tarjetas, porHacer, [rend]] = await Promise.all([
     erroresRecientes({ temaId: id, limite: 30 }),
     tarjetasDeTema(id),
+    pendientesDeTema(id),
     getDb().select({ total: sql<number>`coalesce(sum(${bloquesPreguntas.total}),0)::int`, aciertos: sql<number>`coalesce(sum(${bloquesPreguntas.aciertos}),0)::int` })
       .from(bloquesPreguntas).where(eq(bloquesPreguntas.temaId, id)),
   ]);
@@ -40,7 +41,10 @@ export default async function Tema({ params }: { params: Promise<{ id: string }>
         <div className="caja p-3"><p className="text-xl font-semibold">{tarjetas.length}</p><p className="sub">tarjetas</p></div>
       </div>
 
-      <Link href={`/registrar?tema=${tema.id}`} className="btn-primario">Registrar preguntas o errores</Link>
+      {porHacer > 0 && (
+        <Link href={`/tarjetas?tema=${tema.id}`} className="btn-primario">Estudiar tarjetas de este tema ({porHacer})</Link>
+      )}
+      <Link href={`/registrar?tema=${tema.id}`} className={porHacer > 0 ? "btn-sec" : "btn-primario"}>Registrar preguntas o errores</Link>
       <div className="grid grid-cols-2 gap-3">
         <Link href={`/tarjetas/nueva?tema=${tema.id}`} className="btn-sec">＋ Tarjeta propia</Link>
         <Link href={`/temporizador?tema=${tema.id}`} className="btn-sec">Temporizador</Link>

@@ -81,3 +81,4 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Notas por tema (campo `temas.notas` ya existente) y tarjetas propias (`tarjetas.origen = 'propia'`, sin fragmento), también creadas desde un error: lo que fallas se convierte en repaso FSRS.
 - Buscador global sin tildes (temas y sus notas, conceptos, notas de errores, tarjetas) con `translate/lower` en SQL: sin índices extra, suficiente para un usuario.
 - La URL de la base admite también `MIR_DATABASE_URL`/`MIR_DATABASE_URL_UNPOOLED` (la integración de Neon de `mir-project` creó las variables con prefijo); `DATABASE_URL` sigue teniendo prioridad.
+- Sesión de tarjetas por tema (botón en la ficha del tema, `/tarjetas?tema=<id>`): solo tarjetas de ese tema, sin cupo diario ni requisito de planificación, porque el usuario la elige explícitamente al estudiar ese tema. La sesión diaria no cambia.

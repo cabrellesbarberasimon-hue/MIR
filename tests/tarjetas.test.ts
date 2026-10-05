@@ -7,7 +7,7 @@ import { crearAsignatura, crearTemas, marcarRealizado, asegurarConcepto } from "
 import { anadirPlan } from "@/lib/datos/plan";
 import { guardarAjustes } from "@/lib/datos/ajustes";
 import {
-  siguienteTarjeta, responder, explicarFallo, marcarMal, pendientesHoy, estadoCupo, notasDeTarjeta, cambiarEstado,
+  siguienteTarjeta, siguienteTarjetaDeTema, pendientesDeTema, responder, explicarFallo, marcarMal, pendientesHoy, estadoCupo, notasDeTarjeta, cambiarEstado,
 } from "@/lib/datos/tarjetas";
 import { conceptosDebiles, miniEsquema, estadisticasTarjetas } from "@/lib/datos/analisis";
 import { hoy, sumarDias } from "@/lib/fechas";
@@ -114,5 +114,32 @@ describe("sesión diaria", () => {
     await responder(ts[0].id, "sabia", AHORA);
     const est = await estadisticasTarjetas(AHORA);
     expect(est).toMatchObject({ respuestas: 1, sabia: 1, activas: 2, nuevas: 1 });
+  });
+});
+
+describe("sesión de un tema", () => {
+  it("solo da tarjetas de ese tema, sin planificación ni cupo diario", async () => {
+    await crearTarjetas(temaA, 12);
+    await crearTarjetas(temaB, 3);
+    expect(await siguienteTarjeta(AHORA)).toBeNull(); // la diaria no la ve: el tema no está planificado
+    expect(await pendientesDeTema(temaB, AHORA)).toBe(3);
+    let ahora = AHORA, n = 0;
+    for (;;) {
+      const t = await siguienteTarjetaDeTema(temaA, ahora);
+      if (!t) break;
+      expect(t.temaId).toBe(temaA);
+      await responder(t.id, "sabia", ahora);
+      ahora = new Date(ahora.getTime() + 60_000);
+      if (++n > 100) throw new Error("bucle");
+    }
+    expect(n).toBeGreaterThanOrEqual(12); // pasa del cupo de 10 nuevas
+    expect(await pendientesDeTema(temaA, ahora)).toBe(0);
+    expect(await pendientesDeTema(temaB, ahora)).toBe(3);
+  });
+
+  it("una fallada vuelve dentro de la misma sesión", async () => {
+    const [t] = await crearTarjetas(temaA, 1);
+    await responder(t.id, "fallada", AHORA);
+    expect((await siguienteTarjetaDeTema(temaA, AHORA))?.id).toBe(t.id);
   });
 });

@@ -7,7 +7,7 @@ import type { MotivoError } from "@/db/schema";
 
 type Tarjeta = NonNullable<Awaited<ReturnType<typeof accSiguienteTarjeta>>>;
 
-export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta | null; preguntarMotivo: boolean; limite?: number }) {
+export function Sesion({ inicial, preguntarMotivo, limite, temaId }: { inicial: Tarjeta | null; preguntarMotivo: boolean; limite?: number; temaId?: number }) {
   const [t, setT] = useState<Tarjeta | null>(inicial);
   const [fase, setFase] = useState<"pregunta" | "respuesta" | "motivo">("pregunta");
   const [historialId, setHistorialId] = useState<number | null>(null);
@@ -20,9 +20,9 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
   const terminado = !t || (limite != null && hechas >= limite);
 
   const siguiente = useCallback(async (vistasAhora: number[]) => {
-    const n = await accSiguienteTarjeta(limite != null ? vistasAhora : []);
+    const n = await accSiguienteTarjeta(limite != null ? vistasAhora : [], temaId);
     setT(n); setFase("pregunta"); setNota(""); setFuente(false); setHistorialId(null);
-  }, [limite]);
+  }, [limite, temaId]);
 
   const responder = useCallback((r: "sabia" | "dudosa" | "fallada") => {
     if (!t) return;
@@ -61,9 +61,15 @@ export function Sesion({ inicial, preguntarMotivo, limite }: { inicial: Tarjeta 
     return (
       <div className="mt-16 flex flex-col items-center gap-4 text-center">
         <p className="text-4xl">✓</p>
-        <h1 className="text-xl font-semibold">{hechas ? `Hecho: ${hechas} tarjeta${hechas === 1 ? "" : "s"}` : "No quedan tarjetas para hoy"}</h1>
-        <p className="sub">Las nuevas solo entran de temas realizados o planificados hasta hoy.</p>
-        <Link href="/" className="btn-primario">Volver a Hoy</Link>
+        <h1 className="text-xl font-semibold">{hechas ? `Hecho: ${hechas} tarjeta${hechas === 1 ? "" : "s"}` : temaId != null ? "No quedan tarjetas de este tema" : "No quedan tarjetas para hoy"}</h1>
+        {temaId != null ? (
+          <Link href={`/temario/${temaId}`} className="btn-primario">Volver al tema</Link>
+        ) : (
+          <>
+            <p className="sub">Las nuevas solo entran de temas realizados o planificados hasta hoy.</p>
+            <Link href="/" className="btn-primario">Volver a Hoy</Link>
+          </>
+        )}
       </div>
     );
   }

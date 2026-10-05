@@ -109,6 +109,36 @@ export async function siguienteTarjeta(ahora = new Date(), excluir: number[] = [
   return pronto ? { ...pronto, cupo } : null;
 }
 
+/**
+ * Sesión de un tema concreto (el usuario lo elige desde la ficha del tema): mismo orden que la diaria,
+ * pero solo con tarjetas de ese tema y sin cupo diario ni requisito de planificación.
+ */
+export async function siguienteTarjetaDeTema(temaId: number, ahora = new Date()) {
+  const cupo = await estadoCupo(ahora);
+  const delTema = and(eq(tarjetas.estado, "activa"), eq(tarjetas.temaId, temaId));
+  const [vencida] = await base()
+    .where(and(delTema, ne(tarjetas.state, State.New), lte(tarjetas.due, ahora)))
+    .orderBy(asc(tarjetas.due), desc(tarjetas.prioridad)).limit(1);
+  if (vencida) return { ...vencida, cupo };
+  const [nueva] = await base()
+    .where(and(delTema, eq(tarjetas.state, State.New)))
+    .orderBy(desc(tarjetas.prioridad), asc(tarjetas.id)).limit(1);
+  if (nueva) return { ...nueva, cupo };
+  const [pronto] = await base()
+    .where(and(delTema, inArray(tarjetas.state, [State.Learning, State.Relearning]),
+      lte(tarjetas.due, new Date(ahora.getTime() + ADELANTO_MS))))
+    .orderBy(asc(tarjetas.due)).limit(1);
+  return pronto ? { ...pronto, cupo } : null;
+}
+
+/** Tarjetas de un tema que se pueden hacer ahora (vencidas + nuevas). */
+export async function pendientesDeTema(temaId: number, ahora = new Date()) {
+  const [r] = await getDb().select({ n: sql<number>`count(*)::int` }).from(tarjetas)
+    .where(and(eq(tarjetas.estado, "activa"), eq(tarjetas.temaId, temaId),
+      or(eq(tarjetas.state, State.New), lte(tarjetas.due, ahora))));
+  return r.n;
+}
+
 /** Cuántas tarjetas quedan hoy (aprox. para el dashboard). */
 export async function pendientesHoy(ahora = new Date()) {
   const db = getDb();
