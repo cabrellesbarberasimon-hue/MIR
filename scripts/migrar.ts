@@ -4,9 +4,9 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-import { limpiarUrlBd } from "../src/db/url";
+import { limpiarUrlBd, urlBdDirecta } from "../src/db/url";
 
-const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
+const url = urlBdDirecta();
 if (!url) {
   console.log("DATABASE_URL no definida: se omiten las migraciones.");
   process.exit(0);

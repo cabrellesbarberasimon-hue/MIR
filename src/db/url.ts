@@ -11,3 +11,13 @@ export function limpiarUrlBd(url: string): string {
     return url;
   }
 }
+
+// La integración de Neon de Vercel puede crear las variables con prefijo (p. ej. MIR_DATABASE_URL).
+export function urlBd(env: Record<string, string | undefined> = process.env): string | undefined {
+  return env.DATABASE_URL || env.MIR_DATABASE_URL;
+}
+
+/** Para migraciones: conexión directa (sin pooler) si existe. */
+export function urlBdDirecta(env: Record<string, string | undefined> = process.env): string | undefined {
+  return env.DATABASE_URL_UNPOOLED || env.MIR_DATABASE_URL_UNPOOLED || urlBd(env);
+}

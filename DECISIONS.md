@@ -80,3 +80,4 @@ Una línea por decisión, con el porqué. Las más recientes al final.
 - Temporizador Pomodoro (25/50/90 + descanso de 5) que guarda los minutos en `sesiones_estudio`; usa hora de fin real para no desajustarse si el móvil bloquea la pestaña.
 - Notas por tema (campo `temas.notas` ya existente) y tarjetas propias (`tarjetas.origen = 'propia'`, sin fragmento), también creadas desde un error: lo que fallas se convierte en repaso FSRS.
 - Buscador global sin tildes (temas y sus notas, conceptos, notas de errores, tarjetas) con `translate/lower` en SQL: sin índices extra, suficiente para un usuario.
+- La URL de la base admite también `MIR_DATABASE_URL`/`MIR_DATABASE_URL_UNPOOLED` (la integración de Neon de `mir-project` creó las variables con prefijo); `DATABASE_URL` sigue teniendo prioridad.
