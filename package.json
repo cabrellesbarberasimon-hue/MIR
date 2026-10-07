@@ -14,7 +14,8 @@
     "analizar-manuales": "tsx scripts/analizar-manuales.ts",
     "cargar-manuales": "tsx scripts/cargar-manuales.ts",
     "generar-tarjetas": "tsx scripts/generar-tarjetas.ts",
-    "tarjetas-sin-api": "tsx scripts/tarjetas-sin-api.ts"
+    "tarjetas-sin-api": "tsx scripts/tarjetas-sin-api.ts",
+    "fijar-citas": "tsx scripts/fijar-citas.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.3",
