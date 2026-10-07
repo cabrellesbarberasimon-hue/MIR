@@ -40,9 +40,9 @@ secciones 13, 14, 14.5 y 15). Si lo tienes, súbelo al repo y te digo si algo di
 de error, intervalos de repaso 1/7/30 días, contenido del modo 10 minutos y de los mini-esquemas).
 
 ## 5. Progreso de las tarjetas (informativo)
-A fecha de hoy (sesión de más de 24h): **103/345 capítulos, 4.451 tarjetas** (vía sin API, validadas con cita
-literal obligatoria; no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su
-tamaño desproporcionado — ver nota más abajo). Quedan ~242 capítulos.
+A fecha de hoy: **281/346 capítulos, 9.704 tarjetas** (vía sin API, validadas con cita literal obligatoria;
+no cuenta la sección 567 "Actualizaciones MIR", 278 fragmentos, que dejo aparte por su tamaño desproporcionado
+— ver nota más abajo). Quedan ~64 capítulos.
 
 La sesión ha ido muy en paralelo con varios subagentes a la vez cuando la herramienta lo permitía (mucho más
 rápido: varios cientos de tarjetas en minutos), y capítulo a capítulo yo solo cuando no ("Fork is not available
