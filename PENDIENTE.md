@@ -2,21 +2,11 @@
 
 Todo lo demás está hecho, probado y subido a `main`.
 
-## 1. ✅ Base de datos conectada — falta enlazar mir-project con GitHub
-`DATABASE_URL` ya está en `.env` (Neon nuevo, dedicado a `mir-project`, nada compartido con otros proyectos
-tuyos) y ya cargué el temario (22 manuales → asignaturas/temas/capítulos) ahí.
-
-**`mir-estudio.vercel.app` (la app real y en vivo) y `mir-project` (donde estoy trabajando) son proyectos de
-Vercel distintos** — el primero no está en la cuenta a la que tengo acceso; el segundo es nuevo, sin repo de
-GitHub conectado todavía (por eso su build está en ERROR). Decidiste que `mir-project` pase a ser la app real.
-No puedo enlazar el repo de GitHub a un proyecto de Vercel ya existente con las herramientas que tengo (solo
-puedo crear proyectos nuevos desde un repo, no conectar uno después) — hace falta este paso tuyo, 1 minuto:
-- Vercel → `mir-project` → **Settings → Git → Connect Git Repository** → elige `cabrellesbarberasimon-hue/MIR`,
-  rama `main`.
-- Después revisa las variables de entorno del proyecto (`APP_PASSWORD`, `SESSION_SECRET`) en *Settings →
-  Environment Variables* — probablemente no existan todavía en `mir-project` (estaban en el proyecto antiguo).
-- El dominio será algo tipo `mir-project-*.vercel.app`; si quieres seguir usando `mir-estudio.vercel.app`,
-  añádelo luego en *Settings → Domains* (puede que primero tengas que liberarlo del proyecto antiguo).
+## 1. ✅ App desplegada en `mir-project`
+- URL: **https://mir-project-rust.vercel.app** (contraseña: la que se te dio en el chat; cámbiala en Vercel →
+  `mir-project` → Settings → Environment Variables → `APP_PASSWORD` y redespliega).
+- Conectado a GitHub: cada push a `main` despliega. Usa la base Neon de `mir-project` (`MIR_DATABASE_URL`).
+- `mir-estudio.vercel.app` es el proyecto antiguo (otra cuenta de Vercel, base vacía): puedes borrarlo.
 
 ## 2. Decide qué hacer con LIBRO GORDO.pdf y LG IMAGENES.pdf
 Por defecto los dejo fuera de la carga (ver docs/analisis-manuales.md):
@@ -58,7 +48,6 @@ y 278 fragmentos — mucho más grande que cualquier otro) la dejé fuera de la 
 si quieres que la procese igualmente dímelo (llevará varias tandas de trabajo solo para ese capítulo).
 
 ## Ya hecho (contexto, no requiere acción)
-- Código en `main`. Despliegue: en transición de `mir-estudio.vercel.app` (app antigua, cuenta de Vercel que
-  no controlo) a `mir-project` (ver punto 1) — hasta que conectes el repo, `mir-project` no se actualiza solo.
-- Generación de tarjetas: vamos por la vía **sin API** (`npm run tarjetas-sin-api`, redactadas por mí,
+- Código en `main`, desplegado en `mir-project` (ver punto 1).
+- Generación de tarjetas: vamos por la vía **sin API** (`npm run tarjetas-sin-api`, redactadas por Claude,
   validadas igual que las de la API — cita literal obligatoria). No hace falta `ANTHROPIC_API_KEY`.
